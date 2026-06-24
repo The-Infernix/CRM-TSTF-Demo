@@ -30,6 +30,12 @@ interface Lead {
   contactPerson: string;
   phone: string;
   email: string;
+  status: string;
+  potentialRevenue: number;
+  leadScore: string;
+  painPoints: string;
+  createdAt: string;
+  nextFollowUp: string;
 }
 
 export default function ContractManagementPage() {
@@ -62,6 +68,7 @@ export default function ContractManagementPage() {
   }, []);
 
   const loadData = () => {
+    // Load contracts
     const savedContracts = localStorage.getItem("tsfs_contracts");
     if (savedContracts) {
       const parsed = JSON.parse(savedContracts);
@@ -105,6 +112,7 @@ export default function ContractManagementPage() {
       localStorage.setItem("tsfs_contracts", JSON.stringify(sampleContracts));
     }
     
+    // Load leads
     const savedLeads = localStorage.getItem("tsfs_leads");
     if (savedLeads) {
       setLeads(JSON.parse(savedLeads));
@@ -249,10 +257,11 @@ export default function ContractManagementPage() {
   const totalMonthlyRevenue = contracts.reduce((sum, c) => sum + c.monthlyValue, 0);
   const totalAnnualRevenue = totalMonthlyRevenue * 12;
 
-  const wonLeads = leads.filter(l => l.status === "Won").length;
-  const availableToContract = leads.filter(l => 
+  // Fix: Check if leads exist before filtering
+  const wonLeads = leads ? leads.filter(l => l.status === "Won").length : 0;
+  const availableToContract = leads ? leads.filter(l => 
     l.status === "Negotiation" || l.status === "Proposal Sent"
-  ).length;
+  ).length : 0;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -479,7 +488,7 @@ export default function ContractManagementPage() {
                     disabled={!!editingContract}
                   >
                     <option value="">Select a lead...</option>
-                    {leads.filter(l => l.status === "Won" || l.status === "Negotiation" || l.status === "Proposal Sent").map(lead => (
+                    {leads && leads.filter(l => l.status === "Won" || l.status === "Negotiation" || l.status === "Proposal Sent").map(lead => (
                       <option key={lead.id} value={lead.id}>{lead.company} - {lead.industry}</option>
                     ))}
                   </select>
