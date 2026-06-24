@@ -156,7 +156,7 @@ export default function PricingEnginePage() {
   };
 
   const deleteProposal = (id: number) => {
-    const updated = savedProposals.filter(p => p.id !== id);
+    const updated = savedProposals.filter((p: any) => p.id !== id);
     localStorage.setItem("tsfs_pricing_proposals", JSON.stringify(updated));
     setSavedProposals(updated);
   };
@@ -165,28 +165,29 @@ export default function PricingEnginePage() {
     // This will trigger PDF download
     const printContent = document.getElementById('pricing-report');
     if (printContent) {
-      const originalContents = document.body.innerHTML;
       const printWindow = window.open('', '_blank');
-      printWindow?.document.write(`
-        <html>
-          <head>
-            <title>Pricing Proposal - TSFS</title>
-            <style>
-              body { font-family: Arial, sans-serif; padding: 40px; }
-              h1 { color: #1e3a8a; }
-              table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-              th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-              th { background-color: #f3f4f6; }
-              .total { font-size: 18px; font-weight: bold; color: #16a34a; }
-            </style>
-          </head>
-          <body>
-            ${printContent.innerHTML}
-          </body>
-        </html>
-      `);
-      printWindow?.document.close();
-      printWindow?.print();
+      if (printWindow) {
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Pricing Proposal - TSFS</title>
+              <style>
+                body { font-family: Arial, sans-serif; padding: 40px; }
+                h1 { color: #1e3a8a; }
+                table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+                th { background-color: #f3f4f6; }
+                .total { font-size: 18px; font-weight: bold; color: #16a34a; }
+              </style>
+            </head>
+            <body>
+              ${printContent.innerHTML}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.print();
+      }
     }
   };
 
@@ -247,55 +248,55 @@ export default function PricingEnginePage() {
                 <InputField 
                   label="Basic Salary" 
                   value={inputs.basicSalary}
-                  onChange={(v) => updateInput('basicSalary', v)}
+                  onChange={(v: number) => updateInput('basicSalary', v)}
                   icon="💰"
                 />
                 <InputField 
                   label="PF (12% of basic)" 
                   value={inputs.pf}
-                  onChange={(v) => updateInput('pf', v)}
+                  onChange={(v: number) => updateInput('pf', v)}
                   icon="🏦"
                 />
                 <InputField 
                   label="ESI (6.5% of basic)" 
                   value={inputs.esi}
-                  onChange={(v) => updateInput('esi', v)}
+                  onChange={(v: number) => updateInput('esi', v)}
                   icon="🩺"
                 />
                 <InputField 
                   label="Bonus (annual ~8.33%)" 
                   value={inputs.bonus}
-                  onChange={(v) => updateInput('bonus', v)}
+                  onChange={(v: number) => updateInput('bonus', v)}
                   icon="🎯"
                 />
                 <InputField 
                   label="Leave Reserve" 
                   value={inputs.leaveReserve}
-                  onChange={(v) => updateInput('leaveReserve', v)}
+                  onChange={(v: number) => updateInput('leaveReserve', v)}
                   icon="🌴"
                 />
                 <InputField 
                   label="Uniform & Gear" 
                   value={inputs.uniform}
-                  onChange={(v) => updateInput('uniform', v)}
+                  onChange={(v: number) => updateInput('uniform', v)}
                   icon="👕"
                 />
                 <InputField 
                   label="Training" 
                   value={inputs.training}
-                  onChange={(v) => updateInput('training', v)}
+                  onChange={(v: number) => updateInput('training', v)}
                   icon="📚"
                 />
                 <InputField 
                   label="Supervisor Allocation" 
                   value={inputs.supervisor}
-                  onChange={(v) => updateInput('supervisor', v)}
+                  onChange={(v: number) => updateInput('supervisor', v)}
                   icon="👔"
                 />
                 <InputField 
                   label="Admin & Overhead" 
                   value={inputs.admin}
-                  onChange={(v) => updateInput('admin', v)}
+                  onChange={(v: number) => updateInput('admin', v)}
                   icon="📊"
                 />
               </div>
@@ -305,7 +306,7 @@ export default function PricingEnginePage() {
                   <InputField 
                     label="Number of Guards" 
                     value={inputs.guardCount}
-                    onChange={(v) => updateInput('guardCount', v)}
+                    onChange={(v: number) => updateInput('guardCount', v)}
                     icon="👥"
                   />
                   <div>
@@ -334,7 +335,7 @@ export default function PricingEnginePage() {
                   Saved Proposals
                 </h2>
                 <div className="space-y-2">
-                  {savedProposals.map((proposal) => (
+                  {savedProposals.map((proposal: any) => (
                     <div key={proposal.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                       <div>
                         <p className="font-medium">{proposal.name}</p>
@@ -449,25 +450,33 @@ export default function PricingEnginePage() {
             
             <h2>Cost Breakdown (Per Guard)</h2>
             <table>
-              <tr><th>Component</th><th>Amount (₹)</th></tr>
-              <tr><td>Basic Salary</td><td>{inputs.basicSalary}</td></tr>
-              <tr><td>PF</td><td>{inputs.pf}</td></tr>
-              <tr><td>ESI</td><td>{inputs.esi}</td></tr>
-              <tr><td>Bonus</td><td>{inputs.bonus}</td></tr>
-              <tr><td>Leave Reserve</td><td>{inputs.leaveReserve}</td></tr>
-              <tr><td>Uniform</td><td>{inputs.uniform}</td></tr>
-              <tr><td>Training</td><td>{inputs.training}</td></tr>
-              <tr><td>Supervisor</td><td>{inputs.supervisor}</td></tr>
-              <tr><td>Admin</td><td>{inputs.admin}</td></tr>
-              <tr style={{ fontWeight: 'bold' }}><td>Total Cost Per Guard</td><td>{formatCurrency(outputs.actualCostPerGuard)}</td></tr>
+              <thead>
+                <tr><th>Component</th><th>Amount (₹)</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Basic Salary</td><td>{inputs.basicSalary}</td></tr>
+                <tr><td>PF</td><td>{inputs.pf}</td></tr>
+                <tr><td>ESI</td><td>{inputs.esi}</td></tr>
+                <tr><td>Bonus</td><td>{inputs.bonus}</td></tr>
+                <tr><td>Leave Reserve</td><td>{inputs.leaveReserve}</td></tr>
+                <tr><td>Uniform</td><td>{inputs.uniform}</td></tr>
+                <tr><td>Training</td><td>{inputs.training}</td></tr>
+                <tr><td>Supervisor</td><td>{inputs.supervisor}</td></tr>
+                <tr><td>Admin</td><td>{inputs.admin}</td></tr>
+                <tr style={{ fontWeight: 'bold' }}><td>Total Cost Per Guard</td><td>{formatCurrency(outputs.actualCostPerGuard)}</td></tr>
+              </tbody>
             </table>
 
             <h2>Pricing Options ({inputs.guardCount} Guards)</h2>
             <table>
-              <tr><th>Margin</th><th>Price Per Guard</th><th>Monthly Total</th><th>Annual Total</th></tr>
-              <tr><td>20%</td><td>{formatCurrency(outputs.margin20)}</td><td>{formatCurrency(outputs.margin20 * inputs.guardCount)}</td><td>{formatCurrency(outputs.margin20 * inputs.guardCount * 12)}</td></tr>
-              <tr style={{ backgroundColor: '#f0fdf4' }}><td>25% (Recommended)</td><td>{formatCurrency(outputs.margin25)}</td><td>{formatCurrency(outputs.margin25 * inputs.guardCount)}</td><td>{formatCurrency(outputs.margin25 * inputs.guardCount * 12)}</td></tr>
-              <tr><td>35%</td><td>{formatCurrency(outputs.margin35)}</td><td>{formatCurrency(outputs.margin35 * inputs.guardCount)}</td><td>{formatCurrency(outputs.margin35 * inputs.guardCount * 12)}</td></tr>
+              <thead>
+                <tr><th>Margin</th><th>Price Per Guard</th><th>Monthly Total</th><th>Annual Total</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>20%</td><td>{formatCurrency(outputs.margin20)}</td><td>{formatCurrency(outputs.margin20 * inputs.guardCount)}</td><td>{formatCurrency(outputs.margin20 * inputs.guardCount * 12)}</td></tr>
+                <tr style={{ backgroundColor: '#f0fdf4' }}><td>25% (Recommended)</td><td>{formatCurrency(outputs.margin25)}</td><td>{formatCurrency(outputs.margin25 * inputs.guardCount)}</td><td>{formatCurrency(outputs.margin25 * inputs.guardCount * 12)}</td></tr>
+                <tr><td>35%</td><td>{formatCurrency(outputs.margin35)}</td><td>{formatCurrency(outputs.margin35 * inputs.guardCount)}</td><td>{formatCurrency(outputs.margin35 * inputs.guardCount * 12)}</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
@@ -501,7 +510,12 @@ export default function PricingEnginePage() {
 }
 
 // Helper Components
-function InputField({ label, value, onChange, icon }: any) {
+function InputField({ label, value, onChange, icon }: { 
+  label: string; 
+  value: number; 
+  onChange: (v: number) => void; 
+  icon: string;
+}) {
   return (
     <div>
       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -520,7 +534,12 @@ function InputField({ label, value, onChange, icon }: any) {
   );
 }
 
-function MarginCard({ label, price, isRecommended, formatCurrency }: any) {
+function MarginCard({ label, price, isRecommended, formatCurrency }: { 
+  label: string; 
+  price: number; 
+  isRecommended: boolean; 
+  formatCurrency: (amount: number) => string;
+}) {
   return (
     <div className={`p-3 rounded-lg border ${isRecommended ? 'border-green-300 bg-green-50' : 'border-gray-200'}`}>
       <div className="flex justify-between items-center">
