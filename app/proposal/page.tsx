@@ -15,7 +15,12 @@ interface Lead {
   contactPerson: string;
   phone: string;
   email: string;
+  status: string;
   potentialRevenue: number;
+  leadScore: string;
+  painPoints: string;
+  createdAt: string;
+  nextFollowUp: string;
 }
 
 interface Proposal {
@@ -120,10 +125,14 @@ export default function ProposalPage() {
           
           <h2>Pricing</h2>
           <table>
-            <tr><th>Description</th><th>Amount (₹)</th></tr>
-            <tr><td>Monthly Security Charges (${proposal.guardCount} guards)</td><td>₹${proposal.monthlyPrice.toLocaleString()}</td></tr>
-            <tr><td>GST (18%)</td><td>₹${Math.round(proposal.monthlyPrice * 0.18).toLocaleString()}</td></tr>
-            <tr style="font-weight: bold;"><td>Total Monthly Invoice</td><td>₹${Math.round(proposal.monthlyPrice * 1.18).toLocaleString()}</td></tr>
+            <thead>
+              <tr><th>Description</th><th>Amount (₹)</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Monthly Security Charges (${proposal.guardCount} guards)</td><td>₹${proposal.monthlyPrice.toLocaleString()}</td></tr>
+              <tr><td>GST (18%)</td><td>₹${Math.round(proposal.monthlyPrice * 0.18).toLocaleString()}</td></tr>
+              <tr style="font-weight: bold;"><td>Total Monthly Invoice</td><td>₹${Math.round(proposal.monthlyPrice * 1.18).toLocaleString()}</td></tr>
+            </tbody>
           </table>
           
           <p class="total">Contract Value: ₹${Math.round(proposal.monthlyPrice * proposal.contractDuration * 1.18).toLocaleString()} (including GST)</p>
@@ -145,9 +154,11 @@ export default function ProposalPage() {
     `;
     
     const win = window.open();
-    win?.document.write(printContent);
-    win?.document.close();
-    win?.print();
+    if (win) {
+      win.document.write(printContent);
+      win.document.close();
+      win.print();
+    }
   };
 
   const selectedLeadData = leads.find(l => l.id === selectedLead);
@@ -180,7 +191,7 @@ export default function ProposalPage() {
                 className="w-full p-2 border rounded-lg mb-3"
               >
                 <option value="">Select a lead...</option>
-                {leads.filter(l => l.status === "Negotiation" || l.status === "Proposal Sent").map(lead => (
+                {leads && leads.filter(l => l.status === "Negotiation" || l.status === "Proposal Sent").map(lead => (
                   <option key={lead.id} value={lead.id}>{lead.company} - {lead.industry}</option>
                 ))}
               </select>
