@@ -132,98 +132,100 @@ export default function MarketingCenterPage() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="soc-wrap">
         {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <button onClick={() => router.push('/dashboard')} className="text-gray-600 hover:text-gray-900">
+        <div className="soc-page-header">
+          <div className="flex items-center gap-4 min-w-0">
+          <button onClick={() => router.push('/dashboard')} className="soc-btn soc-btn-ghost px-3 shrink-0">
             <ArrowLeft className="w-5 h-5" />
           </button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <Megaphone className="w-7 h-7 text-orange-600" />
+          <div className="soc-page-title">
+            <div className="soc-kicker">// MODULE — Marketing Center</div>
+            <h1 className="soc-h1 flex items-center gap-2">
+              <Megaphone className="w-5 h-5 text-cyan-400" />
               Marketing Center
             </h1>
-            <p className="text-sm text-gray-500">Track brand metrics and engagement</p>
+            <p className="soc-sub">Track brand metrics and engagement</p>
+          </div>
           </div>
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">LinkedIn Engagement</p>
-                <p className="text-2xl font-bold">{totalEngagement.toLocaleString()}</p>
+        <div className="soc-kpis mb-6">
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">LinkedIn Engagement</span>
+              <div className="soc-kpi-icon bg-cyan-400/15 text-cyan-400">
+                <Briefcase className="w-5 h-5" />
               </div>
-              <Briefcase className="w-8 h-8 text-blue-600" />
             </div>
+            <div className="soc-kpi-value">{totalEngagement.toLocaleString()}</div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Google Rating</p>
-                <p className="text-2xl font-bold">{avgRating.toFixed(1)} ★</p>
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Google Rating</span>
+              <div className="soc-kpi-icon bg-yellow-400/15 text-yellow-400">
+                <Star className="w-5 h-5" />
               </div>
-              <Star className="w-8 h-8 text-yellow-500" />
             </div>
+            <div className="soc-kpi-value">{avgRating.toFixed(1)} ★</div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Total Reviews</p>
-                <p className="text-2xl font-bold">{reviews.length}</p>
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Total Reviews</span>
+              <div className="soc-kpi-icon bg-lime-400/15 text-lime-400">
+                <MessageCircle className="w-5 h-5" />
               </div>
-              <MessageCircle className="w-8 h-8 text-green-600" />
             </div>
+            <div className="soc-kpi-value">{reviews.length}</div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">LinkedIn Posts</p>
-                <p className="text-2xl font-bold">{posts.length}</p>
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">LinkedIn Posts</span>
+              <div className="soc-kpi-icon bg-purple-400/15 text-purple-400">
+                <Share2 className="w-5 h-5" />
               </div>
-              <Share2 className="w-8 h-8 text-purple-600" />
             </div>
+            <div className="soc-kpi-value">{posts.length}</div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {/* LinkedIn Section */}
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h2 className="font-semibold flex items-center gap-2">
-                <Briefcase className="w-5 h-5 text-blue-600" />
+          <div className="soc-panel p-0">
+            <div className="p-4 border-b border-ink-700/60 flex flex-wrap justify-between items-center gap-2">
+              <h2 className="soc-card-title flex items-center gap-2">
+                <Briefcase className="w-5 h-5 text-cyan-400" />
                 LinkedIn Activity
               </h2>
               <button 
                 onClick={() => setShowPostModal(true)}
-                className="text-sm bg-blue-600 text-white px-3 py-1 rounded-lg hover:bg-blue-700 flex items-center gap-1"
+                className="soc-btn soc-btn-primary px-3 py-1.5 text-xs"
               >
                 <Plus className="w-3 h-3" /> Add Post
               </button>
             </div>
-            <div className="divide-y max-h-[500px] overflow-auto">
+            <div className="divide-y divide-ink-700/60 max-h-[500px] overflow-auto pr-1">
               {posts.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
+                <div className="soc-empty">
                   No LinkedIn posts yet. Click "Add Post" to get started.
                 </div>
               ) : (
                 posts.map(post => (
-                  <div key={post.id} className="p-4">
-                    <p className="text-sm mb-2">{post.content}</p>
-                    <div className="flex justify-between items-center text-xs text-gray-500">
-                      <div className="flex gap-3">
+                  <div key={post.id} className="px-4 py-4 flex flex-col gap-2 min-w-0">
+                    <p className="text-sm">{post.content}</p>
+                    <div className="flex flex-wrap justify-between items-center gap-2 text-xs text-slate-500">
+                      <div className="flex flex-wrap gap-3">
                         <span>❤️ {post.likes}</span>
                         <span>💬 {post.comments}</span>
                         <span>🔄 {post.shares}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <span>{new Date(post.date).toLocaleDateString()}</span>
-                        <button onClick={() => deletePost(post.id)} className="text-red-500 hover:text-red-700">
+                        <button onClick={() => deletePost(post.id)} className="text-red-400 hover:text-red-300">
                           <Trash2 className="w-3 h-3" />
                         </button>
                       </div>
@@ -235,40 +237,40 @@ export default function MarketingCenterPage() {
           </div>
 
           {/* Google Reviews Section */}
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h2 className="font-semibold flex items-center gap-2">
-                <Star className="w-5 h-5 text-yellow-500" />
+          <div className="soc-panel p-0">
+            <div className="p-4 border-b border-ink-700/60 flex flex-wrap justify-between items-center gap-2">
+              <h2 className="soc-card-title flex items-center gap-2">
+                <Star className="w-5 h-5 text-yellow-400" />
                 Google Reviews
               </h2>
               <button 
                 onClick={() => setShowReviewModal(true)}
-                className="text-sm bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 flex items-center gap-1"
+                className="soc-btn soc-btn-lime px-3 py-1.5 text-xs"
               >
                 <Plus className="w-3 h-3" /> Add Review
               </button>
             </div>
-            <div className="divide-y max-h-[500px] overflow-auto">
+            <div className="divide-y divide-ink-700/60 max-h-[500px] overflow-auto pr-1">
               {reviews.length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
+                <div className="soc-empty">
                   No Google reviews yet. Click "Add Review" to get started.
                 </div>
               ) : (
                 reviews.map(review => (
-                  <div key={review.id} className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
+                  <div key={review.id} className="px-4 py-4 min-w-0">
+                    <div className="flex justify-between items-start gap-3 mb-2">
+                      <div className="min-w-0">
                         <p className="font-medium">{review.reviewer}</p>
-                        <div className="flex text-yellow-500 text-sm">
+                        <div className="flex text-yellow-400 text-sm">
                           {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
                         </div>
                       </div>
-                      <button onClick={() => deleteReview(review.id)} className="text-red-500 hover:text-red-700">
+                      <button onClick={() => deleteReview(review.id)} className="text-red-400 hover:text-red-300 shrink-0">
                         <Trash2 className="w-3 h-3" />
                       </button>
                     </div>
-                    <p className="text-sm text-gray-600">{review.comment}</p>
-                    <p className="text-xs text-gray-400 mt-2">{new Date(review.date).toLocaleDateString()}</p>
+                    <p className="text-sm text-slate-400">{review.comment}</p>
+                    <p className="text-xs text-slate-500 mt-2">{new Date(review.date).toLocaleDateString()}</p>
                   </div>
                 ))
               )}
@@ -278,49 +280,48 @@ export default function MarketingCenterPage() {
 
         {/* Modals */}
         {showPostModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl max-w-md w-full p-6">
+          <div className="soc-modal-bg">
+            <div className="soc-modal max-w-2xl max-h-[92vh] overflow-auto">
               <h2 className="text-xl font-bold mb-4">Add LinkedIn Post</h2>
               <textarea 
                 placeholder="Post content..."
                 value={newPost.content}
                 onChange={(e) => setNewPost({...newPost, content: e.target.value})}
-                className="w-full p-2 border rounded-lg mb-3 h-32"
+                className="soc-input mb-3 h-32"
               />
-              <div className="grid grid-cols-3 gap-2 mb-4">
-                <input type="number" placeholder="Likes" value={newPost.likes} onChange={e => setNewPost({...newPost, likes: Number(e.target.value)})} className="p-2 border rounded-lg" />
-                <input type="number" placeholder="Comments" value={newPost.comments} onChange={e => setNewPost({...newPost, comments: Number(e.target.value)})} className="p-2 border rounded-lg" />
-                <input type="number" placeholder="Shares" value={newPost.shares} onChange={e => setNewPost({...newPost, shares: Number(e.target.value)})} className="p-2 border rounded-lg" />
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-4">
+                <input type="number" placeholder="Likes" value={newPost.likes} onChange={e => setNewPost({...newPost, likes: Number(e.target.value)})} className="soc-input" />
+                <input type="number" placeholder="Comments" value={newPost.comments} onChange={e => setNewPost({...newPost, comments: Number(e.target.value)})} className="soc-input" />
+                <input type="number" placeholder="Shares" value={newPost.shares} onChange={e => setNewPost({...newPost, shares: Number(e.target.value)})} className="soc-input" />
               </div>
               <div className="flex gap-3">
-                <button onClick={addPost} className="flex-1 bg-blue-600 text-white py-2 rounded-lg">Add</button>
-                <button onClick={() => setShowPostModal(false)} className="flex-1 border py-2 rounded-lg">Cancel</button>
+                <button onClick={addPost} className="soc-btn soc-btn-primary flex-1">Add</button>
+                <button onClick={() => setShowPostModal(false)} className="soc-btn soc-btn-ghost flex-1">Cancel</button>
               </div>
             </div>
           </div>
         )}
 
         {showReviewModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl max-w-md w-full p-6">
+          <div className="soc-modal-bg">
+            <div className="soc-modal max-w-2xl max-h-[92vh] overflow-auto">
               <h2 className="text-xl font-bold mb-4">Add Google Review</h2>
-              <input type="text" placeholder="Reviewer Name" value={newReview.reviewer} onChange={e => setNewReview({...newReview, reviewer: e.target.value})} className="w-full p-2 border rounded-lg mb-3" />
-              <select value={newReview.rating} onChange={e => setNewReview({...newReview, rating: Number(e.target.value)})} className="w-full p-2 border rounded-lg mb-3">
+              <input type="text" placeholder="Reviewer Name" value={newReview.reviewer} onChange={e => setNewReview({...newReview, reviewer: e.target.value})} className="soc-input mb-3" />
+              <select value={newReview.rating} onChange={e => setNewReview({...newReview, rating: Number(e.target.value)})} className="soc-select mb-3">
                 <option value={5}>★★★★★ (5)</option>
                 <option value={4}>★★★★☆ (4)</option>
                 <option value={3}>★★★☆☆ (3)</option>
                 <option value={2}>★★☆☆☆ (2)</option>
                 <option value={1}>★☆☆☆☆ (1)</option>
               </select>
-              <textarea placeholder="Review comment..." value={newReview.comment} onChange={e => setNewReview({...newReview, comment: e.target.value})} className="w-full p-2 border rounded-lg mb-4 h-24" />
+              <textarea placeholder="Review comment..." value={newReview.comment} onChange={e => setNewReview({...newReview, comment: e.target.value})} className="soc-input mb-4 h-24" />
               <div className="flex gap-3">
-                <button onClick={addReview} className="flex-1 bg-green-600 text-white py-2 rounded-lg">Add</button>
-                <button onClick={() => setShowReviewModal(false)} className="flex-1 border py-2 rounded-lg">Cancel</button>
+                <button onClick={addReview} className="soc-btn soc-btn-lime flex-1">Add</button>
+                <button onClick={() => setShowReviewModal(false)} className="soc-btn soc-btn-ghost flex-1">Cancel</button>
               </div>
             </div>
           </div>
         )}
       </div>
-    </div>
   );
 }

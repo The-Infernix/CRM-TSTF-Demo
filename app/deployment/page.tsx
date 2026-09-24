@@ -338,20 +338,20 @@ export default function GuardDeploymentPage() {
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case "Active": return "text-green-600 bg-green-50";
-      case "On Leave": return "text-yellow-600 bg-yellow-50";
-      case "Suspended": return "text-red-600 bg-red-50";
-      case "Resigned": return "text-gray-600 bg-gray-50";
-      default: return "text-gray-600 bg-gray-50";
+      case "Active": return "soc-badge soc-badge-green";
+      case "On Leave": return "soc-badge soc-badge-amber";
+      case "Suspended": return "soc-badge soc-badge-red";
+      case "Resigned": return "soc-badge soc-badge-slate";
+      default: return "soc-badge soc-badge-slate";
     }
   };
 
   const getShiftColor = (shift: string) => {
     switch(shift) {
-      case "Morning": return "bg-blue-100 text-blue-700";
-      case "Evening": return "bg-orange-100 text-orange-700";
-      case "Night": return "bg-purple-100 text-purple-700";
-      default: return "bg-gray-100 text-gray-700";
+      case "Morning": return "soc-badge soc-badge-cyan";
+      case "Evening": return "soc-badge soc-badge-amber";
+      case "Night": return "soc-badge soc-badge-purple";
+      default: return "soc-badge soc-badge-slate";
     }
   };
 
@@ -361,41 +361,41 @@ export default function GuardDeploymentPage() {
   const vacantPositions = sites.reduce((sum, s) => sum + (s.requiredGuards - s.currentGuards), 0);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="soc-wrap">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
+        <div className="soc-page-header">
+          <div className="flex items-center gap-4 min-w-0">
             <button 
               onClick={() => router.push('/dashboard')}
-              className="text-gray-600 hover:text-gray-900"
+              className="soc-btn soc-btn-ghost px-3 shrink-0"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <Users className="w-7 h-7 text-blue-600" />
+            <div className="soc-page-title">
+              <div className="soc-kicker">// MODULE — Guard Deployment</div>
+              <h1 className="soc-h1 flex items-center gap-2">
+                <Users className="w-5 h-5 text-cyan-400" />
                 Guard Deployment
               </h1>
-              <p className="text-sm text-gray-500">Manage security personnel and site assignments</p>
+              <p className="soc-sub">Manage security personnel and site assignments</p>
             </div>
           </div>
-          <div className="flex gap-2">
+          <div className="soc-actions">
             <button 
               onClick={() => { setEditingItem(null); setShowGuardModal(true); }}
-              className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2"
+              className="soc-btn soc-btn-primary px-3 py-2 text-xs"
             >
               <Plus className="w-4 h-4" /> Add Guard
             </button>
             <button 
               onClick={() => { setEditingItem(null); setShowSiteModal(true); }}
-              className="bg-green-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2"
+              className="soc-btn soc-btn-lime px-3 py-2 text-xs"
             >
               <Plus className="w-4 h-4" /> Add Site
             </button>
             <button 
               onClick={() => { setShowDeploymentModal(true); }}
-              className="bg-purple-600 text-white px-3 py-2 rounded-lg text-sm flex items-center gap-2"
+              className="soc-btn soc-btn-primary px-3 py-2 text-xs"
             >
               <Plus className="w-4 h-4" /> Assign Guard
             </button>
@@ -403,117 +403,115 @@ export default function GuardDeploymentPage() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Total Guards</p>
-                <p className="text-2xl font-bold">{guards.length}</p>
-                <p className="text-xs text-green-600">{activeGuards} active</p>
+        <div className="soc-kpis mb-6">
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Total Guards</span>
+              <div className="soc-kpi-icon bg-cyan-400/15 text-cyan-400">
+                <Shield className="w-5 h-5" />
               </div>
-              <Shield className="w-8 h-8 text-blue-500" />
             </div>
+            <div className="soc-kpi-value">{guards.length}</div>
+            <p className="soc-kpi-change text-lime-400">{activeGuards} active</p>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Active Deployments</p>
-                <p className="text-2xl font-bold">{totalDeployments}</p>
-                <p className="text-xs text-gray-500">guards on duty</p>
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Active Deployments</span>
+              <div className="soc-kpi-icon bg-lime-400/15 text-lime-400">
+                <MapPin className="w-5 h-5" />
               </div>
-              <MapPin className="w-8 h-8 text-green-500" />
             </div>
+            <div className="soc-kpi-value">{totalDeployments}</div>
+            <p className="soc-kpi-change text-slate-500">guards on duty</p>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Active Sites</p>
-                <p className="text-2xl font-bold">{totalSites}</p>
-                <p className="text-xs text-gray-500">client locations</p>
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Active Sites</span>
+              <div className="soc-kpi-icon bg-purple-400/15 text-purple-400">
+                <Building2 className="w-5 h-5" />
               </div>
-              <Building2 className="w-8 h-8 text-purple-500" />
             </div>
+            <div className="soc-kpi-value">{totalSites}</div>
+            <p className="soc-kpi-change text-slate-500">client locations</p>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Vacant Positions</p>
-                <p className="text-2xl font-bold text-orange-600">{vacantPositions}</p>
-                <p className="text-xs text-gray-500">need recruitment</p>
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Vacant Positions</span>
+              <div className="soc-kpi-icon bg-amber-400/15 text-amber-400">
+                <UserX className="w-5 h-5" />
               </div>
-              <UserX className="w-8 h-8 text-orange-500" />
             </div>
+            <div className="soc-kpi-value text-amber-400">{vacantPositions}</div>
+            <p className="soc-kpi-change text-slate-500">need recruitment</p>
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="border-b bg-white rounded-t-xl mb-6">
-          <div className="flex gap-6 px-4">
-            {["deployments", "guards", "sites", "attendance"].map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`py-3 px-1 font-medium text-sm border-b-2 transition capitalize ${
-                  activeTab === tab 
-                    ? "border-blue-600 text-blue-600" 
-                    : "border-transparent text-gray-500 hover:text-gray-700"
-                }`}
-              >
-                {tab}
-              </button>
-            ))}
-          </div>
+        <div className="soc-tab-strip mb-6">
+          {["deployments", "guards", "sites", "attendance"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`soc-tab capitalize ${
+                activeTab === tab 
+                  ? "soc-tab-active" 
+                  : "soc-tab-idle"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
         </div>
 
         {/* Deployments Tab */}
         {activeTab === "deployments" && (
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h3 className="font-semibold">Current Deployments</h3>
-              <div className="flex gap-2">
+          <div className="soc-panel p-0">
+            <div className="p-4 border-b border-ink-700/60 flex flex-wrap justify-between items-center gap-2">
+              <h3 className="soc-card-title">Current Deployments</h3>
+              <div className="flex flex-wrap gap-2">
                 <input 
                   type="date" 
                   value={selectedDate}
                   onChange={(e) => setSelectedDate(e.target.value)}
-                  className="px-3 py-1 border rounded-lg text-sm"
+                  className="soc-input w-40"
                 />
               </div>
             </div>
-            <div className="divide-y">
+            <div className="divide-y divide-ink-700/60">
               {deployments.filter(d => d.status === "Active").length === 0 ? (
-                <div className="p-8 text-center text-gray-500">
+                <div className="soc-empty">
                   No active deployments. Click "Assign Guard" to deploy security personnel.
                 </div>
               ) : (
                 deployments.filter(d => d.status === "Active").map(deployment => (
-                  <div key={deployment.id} className="p-4 hover:bg-gray-50">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <div className="flex items-center gap-3 mb-2">
-                          <Shield className="w-5 h-5 text-blue-600" />
+                  <div key={deployment.id} className="p-4 hover:bg-ink-800/50">
+                    <div className="flex flex-wrap justify-between items-start gap-3">
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-3 mb-2 flex-wrap">
+                          <Shield className="w-5 h-5 text-cyan-400 shrink-0" />
                           <span className="font-semibold">{deployment.guardName}</span>
-                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getShiftColor(deployment.shift)}`}>
+                          <span className={getShiftColor(deployment.shift)}>
                             {deployment.shift} Shift
                           </span>
                         </div>
-                        <p className="text-sm text-gray-600">{deployment.siteName}</p>
-                        <p className="text-xs text-gray-400">
+                        <p className="text-sm text-slate-400">{deployment.siteName}</p>
+                        <p className="text-xs text-slate-500">
                           {deployment.startTime} - {deployment.endTime}
                         </p>
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-wrap gap-2">
                         <button 
                           onClick={() => handleAttendance(deployment.id, "Present")}
-                          className="px-2 py-1 text-xs bg-green-100 text-green-700 rounded hover:bg-green-200"
+                          className="soc-btn soc-btn-lime px-2 py-1 text-xs"
                         >
                           Mark Present
                         </button>
                         <button 
                           onClick={() => handleAttendance(deployment.id, "Absent")}
-                          className="px-2 py-1 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200"
+                          className="soc-btn soc-btn-danger px-2 py-1 text-xs"
                         >
                           Mark Absent
                         </button>
@@ -522,14 +520,14 @@ export default function GuardDeploymentPage() {
                     
                     {/* Today's attendance status */}
                     {deployment.attendance.filter(a => a.date === selectedDate).map((att, idx) => (
-                      <div key={idx} className="mt-2 p-2 bg-gray-50 rounded text-sm">
+                      <div key={idx} className="mt-2 p-2 bg-ink-800 rounded-lg text-sm">
                         <span className={`font-medium ${
-                          att.status === "Present" ? "text-green-600" :
-                          att.status === "Absent" ? "text-red-600" : "text-yellow-600"
+                          att.status === "Present" ? "text-lime-400" :
+                          att.status === "Absent" ? "text-red-400" : "text-amber-400"
                         }`}>
                           {att.status}
                         </span>
-                        {att.checkIn && <span className="ml-2 text-xs text-gray-500">Checked in: {att.checkIn}</span>}
+                        {att.checkIn && <span className="ml-2 text-xs text-slate-500">Checked in: {att.checkIn}</span>}
                       </div>
                     ))}
                   </div>
@@ -541,33 +539,33 @@ export default function GuardDeploymentPage() {
 
         {/* Guards Tab */}
         {activeTab === "guards" && (
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h3 className="font-semibold">Security Personnel</h3>
+          <div className="soc-panel p-0">
+            <div className="p-4 border-b border-ink-700/60 flex flex-wrap justify-between items-center gap-2">
+              <h3 className="soc-card-title">Security Personnel</h3>
               <div className="relative">
-                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
                 <input 
                   type="text" 
                   placeholder="Search guards..." 
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-9 pr-3 py-1 border rounded-lg text-sm w-64"
+                  className="soc-input pl-9 w-56"
                 />
               </div>
             </div>
-            <div className="divide-y">
+            <div className="divide-y divide-ink-700/60">
               {guards.filter(g => g.name.toLowerCase().includes(searchTerm.toLowerCase())).map(guard => (
-                <div key={guard.id} className="p-4 hover:bg-gray-50">
+                <div key={guard.id} className="p-4 hover:bg-ink-800/50">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-1">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="font-semibold">{guard.name}</span>
-                        <span className="text-xs text-gray-500">{guard.employeeId}</span>
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(guard.status)}`}>
+                        <span className="text-xs text-slate-500">{guard.employeeId}</span>
+                        <span className={getStatusColor(guard.status)}>
                           {guard.status}
                         </span>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm text-slate-400">
                         <div className="flex items-center gap-1">
                           <Award className="w-3 h-3" />
                           {guard.designation}
@@ -586,16 +584,16 @@ export default function GuardDeploymentPage() {
                         </div>
                       </div>
                       {guard.skills.length > 0 && (
-                        <div className="mt-2 flex gap-1">
+                        <div className="mt-2 flex flex-wrap gap-1.5">
                           {guard.skills.map((skill, idx) => (
-                            <span key={idx} className="text-xs bg-gray-100 px-2 py-0.5 rounded">
+                            <span key={idx} className="text-xs bg-ink-800 text-slate-400 border border-ink-600 px-2 py-0.5 rounded">
                               {skill}
                             </span>
                           ))}
                         </div>
                       )}
                     </div>
-                    <button className="text-gray-400 hover:text-blue-600">
+                    <button className="text-slate-500 hover:text-cyan-300">
                       <Eye className="w-4 h-4" />
                     </button>
                   </div>
@@ -607,70 +605,69 @@ export default function GuardDeploymentPage() {
 
         {/* Sites Tab */}
         {activeTab === "sites" && (
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-4 border-b">
-              <h3 className="font-semibold">Deployment Sites</h3>
+          <div className="soc-panel p-0">
+            <div className="p-4 border-b border-ink-700/60">
+              <h3 className="soc-card-title">Deployment Sites</h3>
             </div>
-            <div className="divide-y">
+            <div className="divide-y divide-ink-700/60">
               {sites.map(site => (
-                <div key={site.id} className="p-4 hover:bg-gray-50">
+                <div key={site.id} className="p-4 hover:bg-ink-800/50">
                   <div className="flex justify-between items-start">
-                    <div>
-                      <div className="flex items-center gap-3 mb-1">
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
                         <span className="font-semibold">{site.clientName}</span>
-                        <span className="text-sm text-gray-500">{site.name}</span>
+                        <span className="text-sm text-slate-500 min-w-0">{site.name}</span>
                       </div>
-                      <p className="text-sm text-gray-600">{site.address}</p>
+                      <p className="text-sm text-slate-400">{site.address}</p>
                       <div className="flex gap-4 mt-2 text-sm">
-                        <span className="text-green-600">✓ {site.currentGuards} deployed</span>
-                        <span className="text-orange-600">⚠ {site.requiredGuards - site.currentGuards} needed</span>
+                        <span className="text-lime-400">✓ {site.currentGuards} deployed</span>
+                        <span className="text-amber-400">⚠ {site.requiredGuards - site.currentGuards} needed</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2 max-w-xs">
+                      <div className="w-full bg-ink-800 border border-ink-700 rounded-full h-1.5 mt-2 max-w-xs">
                         <div 
-                          className="bg-green-600 rounded-full h-1.5"
+                          className="bg-lime-400 rounded-full h-1.5"
                           style={{ width: `${(site.currentGuards / site.requiredGuards) * 100}%` }}
                         />
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-xs text-gray-500">Required</p>
+                      <p className="text-xs text-slate-500">Required</p>
                       <p className="text-lg font-bold">{site.requiredGuards} guards</p>
                     </div>
                   </div>
                 </div>
-              ))}
+))}
             </div>
           </div>
         )}
 
         {/* Attendance Tab */}
         {activeTab === "attendance" && (
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="p-4 border-b flex justify-between items-center">
-              <h3 className="font-semibold">Daily Attendance</h3>
+          <div className="soc-panel p-0">
+            <div className="p-4 border-b border-ink-700/60 flex flex-wrap justify-between items-center gap-2">
+              <h3 className="soc-card-title">Daily Attendance</h3>
               <input 
                 type="date" 
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="px-3 py-1 border rounded-lg text-sm"
+                className="soc-input w-40"
               />
             </div>
-            <div className="divide-y">
+            <div className="divide-y divide-ink-700/60">
               {deployments.filter(d => d.status === "Active").map(deployment => {
                 const todayAttendance = deployment.attendance.find(a => a.date === selectedDate);
                 return (
-                  <div key={deployment.id} className="p-4 flex justify-between items-center">
-                    <div>
+                  <div key={deployment.id} className="p-4 flex flex-wrap justify-between items-center gap-2">
+                    <div className="min-w-0">
                       <p className="font-medium">{deployment.guardName}</p>
-                      <p className="text-sm text-gray-500">{deployment.siteName} - {deployment.shift} Shift</p>
+                      <p className="text-sm text-slate-500">{deployment.siteName} - {deployment.shift} Shift</p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {todayAttendance ? (
-                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          todayAttendance.status === "Present" ? "bg-green-100 text-green-700" :
-                          todayAttendance.status === "Absent" ? "bg-red-100 text-red-700" :
-                          "bg-yellow-100 text-yellow-700"
-                        }`}>
+                        <span className={todayAttendance.status === "Present" ? "soc-badge soc-badge-green" :
+                          todayAttendance.status === "Absent" ? "soc-badge soc-badge-red" :
+                          "soc-badge soc-badge-amber"
+                        }>
                           {todayAttendance.status}
                           {todayAttendance.checkIn && ` at ${todayAttendance.checkIn}`}
                         </span>
@@ -678,19 +675,19 @@ export default function GuardDeploymentPage() {
                         <>
                           <button 
                             onClick={() => handleAttendance(deployment.id, "Present")}
-                            className="px-3 py-1 text-sm bg-green-100 text-green-700 rounded hover:bg-green-200"
+                            className="soc-btn soc-btn-lime px-3 py-1 text-sm"
                           >
                             Present
                           </button>
                           <button 
                             onClick={() => handleAttendance(deployment.id, "Absent")}
-                            className="px-3 py-1 text-sm bg-red-100 text-red-700 rounded hover:bg-red-200"
+                            className="soc-btn soc-btn-danger px-3 py-1 text-sm"
                           >
                             Absent
                           </button>
                           <button 
                             onClick={() => handleAttendance(deployment.id, "Late")}
-                            className="px-3 py-1 text-sm bg-yellow-100 text-yellow-700 rounded hover:bg-yellow-200"
+                            className="soc-btn soc-btn-ghost px-3 py-1 text-sm"
                           >
                             Late
                           </button>
@@ -703,33 +700,32 @@ export default function GuardDeploymentPage() {
             </div>
           </div>
         )}
-      </div>
 
       {/* Add Guard Modal */}
       {showGuardModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 max-h-[90vh] overflow-auto">
+        <div className="soc-modal-bg">
+          <div className="soc-modal max-w-2xl max-h-[92vh] overflow-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Add New Guard</h2>
-              <button onClick={() => setShowGuardModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowGuardModal(false)} className="text-slate-500 hover:text-slate-300">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="space-y-3">
-              <input type="text" placeholder="Full Name" value={guardForm.name} onChange={e => setGuardForm({...guardForm, name: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="text" placeholder="Employee ID (optional)" value={guardForm.employeeId} onChange={e => setGuardForm({...guardForm, employeeId: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="tel" placeholder="Phone" value={guardForm.phone} onChange={e => setGuardForm({...guardForm, phone: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="email" placeholder="Email" value={guardForm.email} onChange={e => setGuardForm({...guardForm, email: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <select value={guardForm.designation} onChange={e => setGuardForm({...guardForm, designation: e.target.value as any})} className="w-full p-2 border rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <input type="text" placeholder="Full Name" value={guardForm.name} onChange={e => setGuardForm({...guardForm, name: e.target.value})} className="soc-input" />
+              <input type="text" placeholder="Employee ID (optional)" value={guardForm.employeeId} onChange={e => setGuardForm({...guardForm, employeeId: e.target.value})} className="soc-input" />
+              <input type="tel" placeholder="Phone" value={guardForm.phone} onChange={e => setGuardForm({...guardForm, phone: e.target.value})} className="soc-input" />
+              <input type="email" placeholder="Email" value={guardForm.email} onChange={e => setGuardForm({...guardForm, email: e.target.value})} className="soc-input" />
+              <select value={guardForm.designation} onChange={e => setGuardForm({...guardForm, designation: e.target.value as any})} className="soc-select">
                 <option>Guard</option><option>Senior Guard</option><option>Supervisor</option><option>Captain</option>
               </select>
-              <input type="date" placeholder="Joining Date" value={guardForm.joiningDate} onChange={e => setGuardForm({...guardForm, joiningDate: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="text" placeholder="Skills (comma separated)" value={guardForm.skills} onChange={e => setGuardForm({...guardForm, skills: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="text" placeholder="Certifications (comma separated)" value={guardForm.certifications} onChange={e => setGuardForm({...guardForm, certifications: e.target.value})} className="w-full p-2 border rounded-lg" />
+              <input type="date" placeholder="Joining Date" value={guardForm.joiningDate} onChange={e => setGuardForm({...guardForm, joiningDate: e.target.value})} className="soc-input" />
+              <input type="text" placeholder="Skills (comma separated)" value={guardForm.skills} onChange={e => setGuardForm({...guardForm, skills: e.target.value})} className="soc-input" />
+              <input type="text" placeholder="Certifications (comma separated)" value={guardForm.certifications} onChange={e => setGuardForm({...guardForm, certifications: e.target.value})} className="soc-input" />
             </div>
             <div className="flex gap-3 mt-6">
-              <button onClick={handleAddGuard} className="flex-1 bg-blue-600 text-white py-2 rounded-lg">Add Guard</button>
-              <button onClick={() => setShowGuardModal(false)} className="flex-1 border py-2 rounded-lg">Cancel</button>
+              <button onClick={handleAddGuard} className="soc-btn soc-btn-primary flex-1">Add Guard</button>
+              <button onClick={() => setShowGuardModal(false)} className="soc-btn soc-btn-ghost flex-1">Cancel</button>
             </div>
           </div>
         </div>
@@ -737,24 +733,24 @@ export default function GuardDeploymentPage() {
 
       {/* Add Site Modal */}
       {showSiteModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6 max-h-[90vh] overflow-auto">
+        <div className="soc-modal-bg">
+          <div className="soc-modal max-w-2xl max-h-[92vh] overflow-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Add Deployment Site</h2>
-              <button onClick={() => setShowSiteModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowSiteModal(false)} className="text-slate-500 hover:text-slate-300">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="space-y-3">
-              <input type="text" placeholder="Site Name" value={siteForm.name} onChange={e => setSiteForm({...siteForm, name: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="text" placeholder="Client Name" value={siteForm.clientName} onChange={e => setSiteForm({...siteForm, clientName: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="text" placeholder="Address" value={siteForm.address} onChange={e => setSiteForm({...siteForm, address: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="text" placeholder="City" value={siteForm.city} onChange={e => setSiteForm({...siteForm, city: e.target.value})} className="w-full p-2 border rounded-lg" />
-              <input type="number" placeholder="Required Guards" value={siteForm.requiredGuards} onChange={e => setSiteForm({...siteForm, requiredGuards: Number(e.target.value)})} className="w-full p-2 border rounded-lg" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <input type="text" placeholder="Site Name" value={siteForm.name} onChange={e => setSiteForm({...siteForm, name: e.target.value})} className="soc-input" />
+              <input type="text" placeholder="Client Name" value={siteForm.clientName} onChange={e => setSiteForm({...siteForm, clientName: e.target.value})} className="soc-input" />
+              <input type="text" placeholder="Address" value={siteForm.address} onChange={e => setSiteForm({...siteForm, address: e.target.value})} className="soc-input" />
+              <input type="text" placeholder="City" value={siteForm.city} onChange={e => setSiteForm({...siteForm, city: e.target.value})} className="soc-input" />
+              <input type="number" placeholder="Required Guards" value={siteForm.requiredGuards} onChange={e => setSiteForm({...siteForm, requiredGuards: Number(e.target.value)})} className="soc-input" />
             </div>
             <div className="flex gap-3 mt-6">
-              <button onClick={handleAddSite} className="flex-1 bg-green-600 text-white py-2 rounded-lg">Add Site</button>
-              <button onClick={() => setShowSiteModal(false)} className="flex-1 border py-2 rounded-lg">Cancel</button>
+              <button onClick={handleAddSite} className="soc-btn soc-btn-lime flex-1">Add Site</button>
+              <button onClick={() => setShowSiteModal(false)} className="soc-btn soc-btn-ghost flex-1">Cancel</button>
             </div>
           </div>
         </div>
@@ -762,39 +758,39 @@ export default function GuardDeploymentPage() {
 
       {/* Assign Guard Modal */}
       {showDeploymentModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-md w-full p-6">
+        <div className="soc-modal-bg">
+          <div className="soc-modal max-w-2xl max-h-[92vh] overflow-auto">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Assign Guard to Site</h2>
-              <button onClick={() => setShowDeploymentModal(false)} className="text-gray-400 hover:text-gray-600">
+              <button onClick={() => setShowDeploymentModal(false)} className="text-slate-500 hover:text-slate-300">
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="space-y-3">
-              <select value={deploymentForm.guardId} onChange={e => setDeploymentForm({...deploymentForm, guardId: e.target.value})} className="w-full p-2 border rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <select value={deploymentForm.guardId} onChange={e => setDeploymentForm({...deploymentForm, guardId: e.target.value})} className="soc-select">
                 <option value="">Select Guard</option>
                 {guards.filter(g => g.status === "Active").map(g => (
                   <option key={g.id} value={g.id}>{g.name} - {g.designation}</option>
                 ))}
               </select>
-              <select value={deploymentForm.siteId} onChange={e => setDeploymentForm({...deploymentForm, siteId: e.target.value})} className="w-full p-2 border rounded-lg">
+              <select value={deploymentForm.siteId} onChange={e => setDeploymentForm({...deploymentForm, siteId: e.target.value})} className="soc-select">
                 <option value="">Select Site</option>
                 {sites.filter(s => s.currentGuards < s.requiredGuards).map(s => (
                   <option key={s.id} value={s.id}>{s.clientName} ({s.currentGuards}/{s.requiredGuards} guards)</option>
                 ))}
               </select>
-              <select value={deploymentForm.shift} onChange={e => setDeploymentForm({...deploymentForm, shift: e.target.value as any})} className="w-full p-2 border rounded-lg">
+              <select value={deploymentForm.shift} onChange={e => setDeploymentForm({...deploymentForm, shift: e.target.value as any})} className="soc-select">
                 <option>Morning</option><option>Evening</option><option>Night</option><option>Rotational</option>
               </select>
               <div className="grid grid-cols-2 gap-2">
-                <input type="time" value={deploymentForm.startTime} onChange={e => setDeploymentForm({...deploymentForm, startTime: e.target.value})} className="p-2 border rounded-lg" />
-                <input type="time" value={deploymentForm.endTime} onChange={e => setDeploymentForm({...deploymentForm, endTime: e.target.value})} className="p-2 border rounded-lg" />
+                <input type="time" value={deploymentForm.startTime} onChange={e => setDeploymentForm({...deploymentForm, startTime: e.target.value})} className="soc-input" />
+                <input type="time" value={deploymentForm.endTime} onChange={e => setDeploymentForm({...deploymentForm, endTime: e.target.value})} className="soc-input" />
               </div>
-              <input type="date" value={deploymentForm.assignedDate} onChange={e => setDeploymentForm({...deploymentForm, assignedDate: e.target.value})} className="w-full p-2 border rounded-lg" />
+              <input type="date" value={deploymentForm.assignedDate} onChange={e => setDeploymentForm({...deploymentForm, assignedDate: e.target.value})} className="soc-input" />
             </div>
             <div className="flex gap-3 mt-6">
-              <button onClick={handleAssignGuard} className="flex-1 bg-purple-600 text-white py-2 rounded-lg">Assign Guard</button>
-              <button onClick={() => setShowDeploymentModal(false)} className="flex-1 border py-2 rounded-lg">Cancel</button>
+              <button onClick={handleAssignGuard} className="soc-btn soc-btn-primary flex-1">Assign Guard</button>
+              <button onClick={() => setShowDeploymentModal(false)} className="soc-btn soc-btn-ghost flex-1">Cancel</button>
             </div>
           </div>
         </div>

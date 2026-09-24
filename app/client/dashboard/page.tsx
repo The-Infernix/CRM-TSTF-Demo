@@ -158,17 +158,17 @@ export default function ClientDashboardPage() {
 
   const getSeverityColor = (severity: string) => {
     switch(severity) {
-      case "High": return "text-red-600 bg-red-50";
-      case "Medium": return "text-yellow-600 bg-yellow-50";
-      default: return "text-green-600 bg-green-50";
+      case "High": return "soc-badge-red";
+      case "Medium": return "soc-badge-amber";
+      default: return "soc-badge-green";
     }
   };
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case "Paid": return "text-green-600 bg-green-50";
-      case "Pending": return "text-yellow-600 bg-yellow-50";
-      default: return "text-red-600 bg-red-50";
+      case "Paid": return "soc-badge-green";
+      case "Pending": return "soc-badge-amber";
+      default: return "soc-badge-red";
     }
   };
 
@@ -176,23 +176,23 @@ export default function ClientDashboardPage() {
   const attendanceRate = 97; // Demo average
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen soc-bg">
       {/* Client Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
+      <div className="bg-ink-900/80 backdrop-blur border-b border-ink-700/70 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="bg-blue-600 p-2 rounded-lg">
-                <Shield className="w-6 h-6 text-white" />
+              <div className="bg-cyan-400/15 border border-cyan-400/30 p-2 rounded-lg">
+                <Shield className="w-6 h-6 text-cyan-300" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">TSFS Client Portal</h1>
-                <p className="text-sm text-gray-500">Welcome, {clientName}</p>
+                <h1 className="text-xl font-bold text-white">TSFS Client Portal</h1>
+                <p className="text-sm text-slate-500">Welcome, {clientName}</p>
               </div>
             </div>
             <button 
               onClick={handleLogout}
-              className="flex items-center gap-2 px-3 py-1 text-gray-600 hover:text-gray-900"
+              className="soc-btn soc-btn-ghost px-3 py-1.5"
             >
               <LogOut className="w-4 h-4" />
               Logout
@@ -202,17 +202,17 @@ export default function ClientDashboardPage() {
       </div>
 
       {/* Navigation Tabs */}
-      <div className="border-b bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-6">
+      <div className="border-b border-ink-700/70 bg-ink-900/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="soc-tab-strip">
             {["overview", "attendance", "incidents", "invoices"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-3 px-1 font-medium text-sm border-b-2 transition capitalize ${
+                className={`soc-tab capitalize ${
                   activeTab === tab 
-                    ? "border-blue-600 text-blue-600" 
-                    : "border-transparent text-gray-500 hover:text-gray-700"
+                    ? "soc-tab-active" 
+                    : "soc-tab-idle"
                 }`}
               >
                 {tab}
@@ -222,110 +222,110 @@ export default function ClientDashboardPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="soc-wrap">
         
         {/* Overview Tab */}
         {activeTab === "overview" && (
           <div className="space-y-6">
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Guards Deployed</p>
-                    <p className="text-2xl font-bold">{totalGuards}</p>
+            <div className="soc-kpis">
+              <div className="soc-kpi">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="soc-kpi-label">Guards Deployed</span>
+                  <div className="soc-kpi-icon bg-cyan-400/15 text-cyan-300">
+                    <Users className="w-5 h-5" />
                   </div>
-                  <Users className="w-8 h-8 text-blue-500" />
                 </div>
+                <div className="soc-kpi-value">{totalGuards}</div>
               </div>
-              
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Attendance Rate</p>
-                    <p className="text-2xl font-bold">{attendanceRate}%</p>
+
+              <div className="soc-kpi">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="soc-kpi-label">Attendance Rate</span>
+                  <div className="soc-kpi-icon bg-lime-400/15 text-lime-300">
+                    <CheckCircle className="w-5 h-5" />
                   </div>
-                  <CheckCircle className="w-8 h-8 text-green-500" />
                 </div>
+                <div className="soc-kpi-value">{attendanceRate}%</div>
               </div>
-              
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Incidents (30 days)</p>
-                    <p className="text-2xl font-bold">{incidents.length}</p>
+
+              <div className="soc-kpi">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="soc-kpi-label">Incidents (30 days)</span>
+                  <div className="soc-kpi-icon bg-amber-400/15 text-amber-300">
+                    <AlertTriangle className="w-5 h-5" />
                   </div>
-                  <AlertTriangle className="w-8 h-8 text-yellow-500" />
                 </div>
+                <div className="soc-kpi-value">{incidents.length}</div>
               </div>
-              
-              <div className="bg-white rounded-xl p-4 shadow-sm border">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-500">Outstanding Amount</p>
-                    <p className="text-2xl font-bold text-red-600">
-                      ₹{invoices.filter(i => i.status !== "Paid").reduce((sum, i) => sum + i.amount, 0).toLocaleString()}
-                    </p>
+
+              <div className="soc-kpi">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="soc-kpi-label">Outstanding Amount</span>
+                  <div className="soc-kpi-icon bg-red-400/15 text-red-300">
+                    <DollarSign className="w-5 h-5" />
                   </div>
-                  <DollarSign className="w-8 h-8 text-red-500" />
+                </div>
+                <div className="soc-kpi-value" style={{ color: "#f87171" }}>
+                  ₹{invoices.filter(i => i.status !== "Paid").reduce((sum, i) => sum + i.amount, 0).toLocaleString()}
                 </div>
               </div>
             </div>
 
             {/* Contract Info */}
             {contract && (
-              <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">
-                <h3 className="text-sm font-medium opacity-90 mb-3">Active Contract</h3>
+              <div className="soc-panel">
+                <h3 className="soc-kicker mb-3">// Active Contract</h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <p className="text-xs opacity-75">Start Date</p>
-                    <p className="font-semibold">{new Date(contract.startDate).toLocaleDateString()}</p>
+                    <p className="text-xs text-slate-500">Start Date</p>
+                    <p className="font-semibold text-slate-200">{new Date(contract.startDate).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p className="text-xs opacity-75">End Date</p>
-                    <p className="font-semibold">{new Date(contract.endDate).toLocaleDateString()}</p>
+                    <p className="text-xs text-slate-500">End Date</p>
+                    <p className="font-semibold text-slate-200">{new Date(contract.endDate).toLocaleDateString()}</p>
                   </div>
                   <div>
-                    <p className="text-xs opacity-75">Monthly Investment</p>
-                    <p className="font-semibold">₹{contract.monthlyValue.toLocaleString()}</p>
+                    <p className="text-xs text-slate-500">Monthly Investment</p>
+                    <p className="font-semibold text-slate-200">₹{contract.monthlyValue.toLocaleString()}</p>
                   </div>
                   <div>
-                    <p className="text-xs opacity-75">Security Personnel</p>
-                    <p className="font-semibold">{contract.guardCount} Guards</p>
+                    <p className="text-xs text-slate-500">Security Personnel</p>
+                    <p className="font-semibold text-slate-200">{contract.guardCount} Guards</p>
                   </div>
                 </div>
               </div>
             )}
 
             {/* Attendance Chart */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="font-semibold text-gray-800 mb-4">Guard Attendance Trend</h3>
-              <ResponsiveContainer width="100%" height={250}>
+            <div className="soc-panel">
+              <h3 className="soc-card-title mb-4">Guard Attendance Trend</h3>
+              <ResponsiveContainer width="100%" height={260}>
                 <LineChart data={attendanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="week" />
-                  <YAxis domain={[80, 100]} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="attendance" stroke="#3b82f6" strokeWidth={2} name="Attendance %" />
+                  <CartesianGrid className="soc-chart-grid" strokeDasharray="3 3" />
+                  <XAxis dataKey="week" stroke="#47587f" />
+                  <YAxis domain={[80, 100]} stroke="#47587f" />
+                  <Tooltip contentStyle={{ background: '#0a0e18', border: '1px solid #2c3a5c', borderRadius: 8, fontSize: 12 }} />
+                  <Line type="monotone" dataKey="attendance" stroke="#22d3ee" strokeWidth={2} name="Attendance %" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
 
             {/* Recent Incidents */}
-            <div className="bg-white rounded-xl shadow-sm border">
-              <div className="p-4 border-b">
-                <h3 className="font-semibold text-gray-800">Recent Incidents</h3>
+            <div className="soc-panel overflow-hidden" style={{ padding: 0 }}>
+              <div className="px-5 py-4 border-b border-ink-700/60">
+                <h3 className="soc-card-title">Recent Incidents</h3>
               </div>
-              <div className="divide-y">
+              <div className="divide-y divide-ink-700/60">
                 {incidents.slice(0, 3).map(incident => (
-                  <div key={incident.id} className="p-4">
-                    <div className="flex justify-between items-start">
+                  <div key={incident.id} className="px-5 py-3">
+                    <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="font-medium">{incident.type}</p>
-                        <p className="text-sm text-gray-600 mt-1">{incident.description}</p>
-                        <p className="text-xs text-gray-400 mt-1">{new Date(incident.date).toLocaleDateString()}</p>
+                        <p className="font-medium text-slate-200">{incident.type}</p>
+                        <p className="text-sm text-slate-400 mt-1">{incident.description}</p>
+                        <p className="text-xs text-slate-500 font-mono mt-1">{new Date(incident.date).toLocaleDateString()}</p>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(incident.severity)}`}>
+                      <span className={`soc-badge ${getSeverityColor(incident.severity)}`}>
                         {incident.severity}
                       </span>
                     </div>
@@ -338,23 +338,23 @@ export default function ClientDashboardPage() {
 
         {/* Attendance Tab */}
         {activeTab === "attendance" && (
-          <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h3 className="font-semibold text-gray-800 mb-4">Weekly Attendance Summary</h3>
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-4">Weekly Attendance Summary</h3>
             <div className="space-y-4">
               {attendanceData.map((week, idx) => (
                 <div key={idx}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span>{week.week}</span>
-                    <span>{week.attendance}%</span>
+                    <span className="text-slate-300">{week.week}</span>
+                    <span className="text-slate-400 font-mono">{week.attendance}%</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className="bg-green-600 rounded-full h-2" style={{ width: `${week.attendance}%` }} />
+                  <div className="w-full bg-ink-700 rounded-full h-2">
+                    <div className="bg-lime-500 rounded-full h-2" style={{ width: `${week.attendance}%` }} />
                   </div>
                 </div>
               ))}
             </div>
-            <div className="mt-6 p-3 bg-blue-50 rounded-lg">
-              <p className="text-sm text-blue-800">Target attendance: 98% | Current average: 97%</p>
+            <div className="mt-6 p-3 bg-cyan-400/10 border border-cyan-400/30 rounded-lg">
+              <p className="text-sm text-cyan-300 font-mono">Target attendance: 98% | Current average: 97%</p>
             </div>
           </div>
         )}
@@ -363,24 +363,24 @@ export default function ClientDashboardPage() {
         {activeTab === "incidents" && (
           <div className="space-y-4">
             {incidents.map(incident => (
-              <div key={incident.id} className="bg-white rounded-xl shadow-sm border p-4">
-                <div className="flex justify-between items-start mb-2">
+              <div key={incident.id} className="soc-panel">
+                <div className="flex justify-between items-start gap-3 mb-2">
                   <div>
-                    <h3 className="font-semibold">{incident.type}</h3>
-                    <p className="text-xs text-gray-500">{new Date(incident.date).toLocaleString()}</p>
+                    <h3 className="font-semibold text-slate-200">{incident.type}</h3>
+                    <p className="text-xs text-slate-500 font-mono">{new Date(incident.date).toLocaleString()}</p>
                   </div>
                   <div className="flex gap-2">
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getSeverityColor(incident.severity)}`}>
+                    <span className={`soc-badge ${getSeverityColor(incident.severity)}`}>
                       {incident.severity}
                     </span>
                     {incident.resolved && (
-                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                      <span className="soc-badge soc-badge-green">
                         Resolved
                       </span>
                     )}
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm">{incident.description}</p>
+                <p className="text-slate-400 text-sm">{incident.description}</p>
               </div>
             ))}
           </div>
@@ -388,40 +388,40 @@ export default function ClientDashboardPage() {
 
         {/* Invoices Tab */}
         {activeTab === "invoices" && (
-          <div className="bg-white rounded-xl shadow-sm border">
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead className="bg-gray-50">
-                  <tr className="text-left text-sm text-gray-600">
-                    <th className="p-4">Invoice #</th>
-                    <th className="p-4">Month</th>
-                    <th className="p-4">Amount</th>
-                    <th className="p-4">Due Date</th>
-                    <th className="p-4">Status</th>
-                    <th className="p-4"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {invoices.map(invoice => (
-                    <tr key={invoice.id} className="border-b">
-                      <td className="p-4 font-medium">{invoice.id}</td>
-                      <td className="p-4">{invoice.month}</td>
-                      <td className="p-4">₹{invoice.amount.toLocaleString()}</td>
-                      <td className="p-4">{new Date(invoice.dueDate).toLocaleDateString()}</td>
-                      <td className="p-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(invoice.status)}`}>
-                          {invoice.status}
-                        </span>
-                       </td>
-                      <td className="p-4">
-                        <button className="text-blue-600 hover:text-blue-700 flex items-center gap-1 text-sm">
-                          <Download className="w-3 h-3" /> PDF
-                        </button>
-                       </td>
-                     </tr>
-                  ))}
-                </tbody>
-               </table>
+          <div className="soc-table-wrap">
+            <div className="soc-table-scroll">
+            <table className="soc-table">
+              <thead>
+                <tr>
+                  <th className="soc-th">Invoice #</th>
+                  <th className="soc-th">Month</th>
+                  <th className="soc-th">Amount</th>
+                  <th className="soc-th">Due Date</th>
+                  <th className="soc-th">Status</th>
+                  <th className="soc-th"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map(invoice => (
+                  <tr key={invoice.id}>
+                    <td className="soc-td font-medium text-slate-200">{invoice.id}</td>
+                    <td className="soc-td">{invoice.month}</td>
+                    <td className="soc-td">₹{invoice.amount.toLocaleString()}</td>
+                    <td className="soc-td font-mono">{new Date(invoice.dueDate).toLocaleDateString()}</td>
+                    <td className="soc-td">
+                      <span className={`soc-badge ${getStatusColor(invoice.status)}`}>
+                        {invoice.status}
+                      </span>
+                     </td>
+                    <td className="soc-td">
+                      <button className="text-cyan-400 hover:text-cyan-300 flex items-center gap-1 text-sm">
+                        <Download className="w-3 h-3" /> PDF
+                      </button>
+                     </td>
+                   </tr>
+                ))}
+              </tbody>
+             </table>
             </div>
           </div>
         )}

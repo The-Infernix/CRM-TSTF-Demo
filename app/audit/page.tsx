@@ -109,143 +109,155 @@ export default function SecurityAuditPage() {
   const riskInfo = getRiskLevel(riskScore);
   const RiskIcon = riskInfo.icon;
 
+  const RISK_CARD: Record<string, string> = {
+    red: "bg-red-400/15 border border-red-400/40", orange: "bg-orange-400/15 border border-orange-400/40",
+    yellow: "bg-yellow-400/15 border border-yellow-400/40", green: "bg-lime-400/15 border border-lime-400/40",
+  };
+  const RISK_TEXT: Record<string, string> = {
+    red: "text-red-400", orange: "text-orange-400", yellow: "text-yellow-400", green: "text-lime-300",
+  };
+  const RISK_BAR: Record<string, string> = {
+    red: "bg-red-400", orange: "bg-orange-400", yellow: "bg-yellow-400", green: "bg-lime-400",
+  };
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-6">
-          <button onClick={() => router.push('/dashboard')} className="text-gray-600 hover:text-gray-900">
-            <ArrowLeft className="w-5 h-5" />
+    <div className="soc-wrap">
+      {/* Header */}
+      <div className="soc-page-header">
+        <div className="soc-page-title">
+          <div className="soc-kicker">// MODULE — Security Audit</div>
+          <h1 className="soc-h1 flex items-center gap-2">
+            <ClipboardCheck className="w-5 h-5 text-cyan-400" />
+            Security Audit
+          </h1>
+          <p className="soc-sub">On-site security assessment checklist</p>
+        </div>
+        <div className="soc-actions">
+          <button onClick={() => router.push('/dashboard')} className="soc-btn soc-btn-ghost">
+            <ArrowLeft className="w-5 h-5" /> Dashboard
           </button>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <ClipboardCheck className="w-7 h-7 text-blue-600" />
-              Security Audit
-            </h1>
-            <p className="text-sm text-gray-500">On-site security assessment checklist</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* Audit Form */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-4">Select Client</h3>
+            <select 
+              value={selectedLead}
+              onChange={(e) => setSelectedLead(e.target.value)}
+              className="soc-select"
+            >
+              <option value="">Select a lead...</option>
+              {leads.map(lead => (
+                <option key={lead.id} value={lead.id}>{lead.company} - {lead.status}</option>
+              ))}
+            </select>
           </div>
+
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-4">Access Control</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label className="soc-label">Entry Points</label>
+                <input type="number" value={formData.entryPoints} onChange={e => setFormData({...formData, entryPoints: Number(e.target.value)})} className="soc-input" />
+              </div>
+              <div>
+                <label className="soc-label">Exit Points</label>
+                <input type="number" value={formData.exitPoints} onChange={e => setFormData({...formData, exitPoints: Number(e.target.value)})} className="soc-input" />
+              </div>
+            </div>
+          </div>
+
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-4 flex items-center gap-2">
+              <Camera className="w-4 h-4 text-cyan-400" /> Surveillance
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <label className="soc-label">CCTV Count</label>
+                <input type="number" value={formData.cctvCount} onChange={e => setFormData({...formData, cctvCount: Number(e.target.value)})} className="soc-input" />
+              </div>
+              <div>
+                <label className="soc-label">Blind Spots</label>
+                <input type="number" value={formData.blindSpots} onChange={e => setFormData({...formData, blindSpots: Number(e.target.value)})} className="soc-input" />
+              </div>
+            </div>
+          </div>
+
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-4">Visitor Management</h3>
+            <select value={formData.visitorManagement} onChange={e => setFormData({...formData, visitorManagement: e.target.value})} className="soc-select">
+              <option>Manual</option><option>Digital</option><option>None</option>
+            </select>
+          </div>
+
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-4">Risk Areas</h3>
+            <div className="space-y-3">
+              <label className="flex items-center gap-2 text-slate-300 text-sm">
+                <input className="soc-check" type="checkbox" checked={formData.hasTheftIssue} onChange={e => setFormData({...formData, hasTheftIssue: e.target.checked})} />
+                History of Theft
+              </label>
+              <label className="flex items-center gap-2 text-slate-300 text-sm">
+                <input className="soc-check" type="checkbox" checked={formData.hasTrespassing} onChange={e => setFormData({...formData, hasTrespassing: e.target.checked})} />
+                Trespassing Issues
+              </label>
+              <label className="flex items-center gap-2 text-slate-300 text-sm">
+                <input className="soc-check" type="checkbox" checked={formData.hasCrowdIssues} onChange={e => setFormData({...formData, hasCrowdIssues: e.target.checked})} />
+                Crowd Management Problems
+              </label>
+            </div>
+          </div>
+
+          <button onClick={handleSubmit} className="soc-btn soc-btn-primary w-full">
+            <Save className="w-4 h-4" /> Save Audit Report
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Audit Form */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h2 className="font-semibold mb-4">Select Client</h2>
-              <select 
-                value={selectedLead}
-                onChange={(e) => setSelectedLead(e.target.value)}
-                className="w-full p-2 border rounded-lg"
-              >
-                <option value="">Select a lead...</option>
-                {leads.map(lead => (
-                  <option key={lead.id} value={lead.id}>{lead.company} - {lead.status}</option>
-                ))}
-              </select>
+        {/* Risk Assessment */}
+        <div className="space-y-6">
+          <div className={`${RISK_CARD[riskInfo.color] || RISK_CARD.red} rounded-xl p-6`}>
+            <div className="text-center mb-4">
+              <RiskIcon className={`w-12 h-12 mx-auto ${RISK_TEXT[riskInfo.color] || RISK_TEXT.red}`} />
+              <h3 className="text-lg font-bold mt-2 text-slate-100">Risk Score: {riskScore}/100</h3>
+              <p className={`${RISK_TEXT[riskInfo.color] || RISK_TEXT.red} font-semibold`}>Risk Level: {riskInfo.level}</p>
             </div>
-
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h2 className="font-semibold mb-4">Access Control</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Entry Points</label>
-                  <input type="number" value={formData.entryPoints} onChange={e => setFormData({...formData, entryPoints: Number(e.target.value)})} className="w-full p-2 border rounded-lg" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Exit Points</label>
-                  <input type="number" value={formData.exitPoints} onChange={e => setFormData({...formData, exitPoints: Number(e.target.value)})} className="w-full p-2 border rounded-lg" />
-                </div>
-              </div>
+            
+            <div className="w-full bg-ink-700 rounded-full h-3">
+              <div className={`${RISK_BAR[riskInfo.color] || RISK_BAR.red} rounded-full h-3 transition-all`} style={{ width: `${riskScore}%` }} />
             </div>
-
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h2 className="font-semibold mb-4 flex items-center gap-2">
-                <Camera className="w-4 h-4" /> Surveillance
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">CCTV Count</label>
-                  <input type="number" value={formData.cctvCount} onChange={e => setFormData({...formData, cctvCount: Number(e.target.value)})} className="w-full p-2 border rounded-lg" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">Blind Spots</label>
-                  <input type="number" value={formData.blindSpots} onChange={e => setFormData({...formData, blindSpots: Number(e.target.value)})} className="w-full p-2 border rounded-lg" />
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h2 className="font-semibold mb-4">Visitor Management</h2>
-              <select value={formData.visitorManagement} onChange={e => setFormData({...formData, visitorManagement: e.target.value})} className="w-full p-2 border rounded-lg">
-                <option>Manual</option><option>Digital</option><option>None</option>
-              </select>
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h2 className="font-semibold mb-4">Risk Areas</h2>
-              <div className="space-y-3">
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" checked={formData.hasTheftIssue} onChange={e => setFormData({...formData, hasTheftIssue: e.target.checked})} />
-                  History of Theft
-                </label>
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" checked={formData.hasTrespassing} onChange={e => setFormData({...formData, hasTrespassing: e.target.checked})} />
-                  Trespassing Issues
-                </label>
-                <label className="flex items-center gap-2">
-                  <input type="checkbox" checked={formData.hasCrowdIssues} onChange={e => setFormData({...formData, hasCrowdIssues: e.target.checked})} />
-                  Crowd Management Problems
-                </label>
-              </div>
-            </div>
-
-            <button onClick={handleSubmit} className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 flex items-center justify-center gap-2">
-              <Save className="w-4 h-4" /> Save Audit Report
-            </button>
           </div>
 
-          {/* Risk Assessment */}
-          <div className="space-y-6">
-            <div className={`bg-${riskInfo.color}-50 border border-${riskInfo.color}-200 rounded-xl p-6`}>
-              <div className="text-center mb-4">
-                <RiskIcon className={`w-12 h-12 mx-auto text-${riskInfo.color}-600`} />
-                <h3 className="text-lg font-bold mt-2">Risk Score: {riskScore}/100</h3>
-                <p className={`text-${riskInfo.color}-600 font-semibold`}>Risk Level: {riskInfo.level}</p>
-              </div>
-              
-              <div className="w-full bg-gray-200 rounded-full h-3">
-                <div className={`bg-${riskInfo.color}-600 rounded-full h-3 transition-all`} style={{ width: `${riskScore}%` }} />
-              </div>
+          <div className="soc-panel">
+            <h3 className="soc-card-title mb-3 flex items-center gap-2">
+              <Shield className="w-4 h-4 text-cyan-400" /> Recommendations
+            </h3>
+            <div className="space-y-2">
+              {getRecommendations(riskScore, formData).map((rec, idx) => (
+                <div key={idx} className="flex items-start gap-2 text-sm text-slate-300">
+                  <CheckCircle className="w-4 h-4 text-lime-400 mt-0.5" />
+                  <span>{rec}</span>
+                </div>
+              ))}
             </div>
+          </div>
 
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="font-semibold mb-3 flex items-center gap-2">
-                <Shield className="w-4 h-4" /> Recommendations
-              </h3>
-              <div className="space-y-2">
-                {getRecommendations(riskScore, formData).map((rec, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-sm">
-                    <CheckCircle className="w-4 h-4 text-green-600 mt-0.5" />
-                    <span>{rec}</span>
+          {/* Previous Audits */}
+          {audits.length > 0 && (
+            <div className="soc-panel">
+              <h3 className="soc-card-title mb-3">Previous Audits</h3>
+              <div className="space-y-2 max-h-60 overflow-auto pr-1">
+                {audits.slice().reverse().map(audit => (
+                  <div key={audit.id} className="p-3 bg-ink-800/70 border border-ink-700/60 rounded text-sm">
+                    <p className="font-medium text-slate-200">{audit.companyName}</p>
+                    <p className="text-xs text-slate-500">{new Date(audit.date).toLocaleDateString()} • Risk: {audit.riskScore}</p>
                   </div>
                 ))}
               </div>
             </div>
-
-            {/* Previous Audits */}
-            {audits.length > 0 && (
-              <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="font-semibold mb-3">Previous Audits</h3>
-                <div className="space-y-2 max-h-60 overflow-auto">
-                  {audits.slice().reverse().map(audit => (
-                    <div key={audit.id} className="p-2 bg-gray-50 rounded text-sm">
-                      <p className="font-medium">{audit.companyName}</p>
-                      <p className="text-xs text-gray-500">{new Date(audit.date).toLocaleDateString()} • Risk: {audit.riskScore}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>

@@ -136,6 +136,15 @@ export default function ContractManagementPage() {
     return Math.ceil((end.getTime() - today.getTime()) / (1000 * 3600 * 24));
   };
 
+  const ALERT_CARD: Record<string, string> = {
+    red: "bg-red-400/15 border border-red-400/40",
+    orange: "bg-orange-400/15 border border-orange-400/40",
+    yellow: "bg-yellow-400/15 border border-yellow-400/40",
+  };
+  const ALERT_TEXT: Record<string, string> = {
+    red: "text-red-400", orange: "text-orange-400", yellow: "text-yellow-400",
+  };
+
   const getAlertLevel = (days: number) => {
     if (days <= 30) return { color: "red", text: "Critical" };
     if (days <= 60) return { color: "orange", text: "Warning" };
@@ -264,81 +273,75 @@ export default function ContractManagementPage() {
   ).length : 0;
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="soc-wrap">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-4">
+        <div className="soc-page-header">
+          <div className="flex items-center gap-4 min-w-0">
             <button 
               onClick={() => router.push('/dashboard')}
-              className="text-gray-600 hover:text-gray-900"
+              className="soc-btn soc-btn-ghost px-3 shrink-0"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                <FileText className="w-7 h-7 text-blue-600" />
+            <div className="soc-page-title">
+              <div className="soc-kicker">// MODULE — Contract Management</div>
+              <h1 className="soc-h1 flex items-center gap-2">
+                <FileText className="w-5 h-5 text-cyan-400" />
                 Contract Management
               </h1>
-              <p className="text-sm text-gray-500">Manage active contracts and renewal alerts</p>
+              <p className="soc-sub">Manage active contracts and renewal alerts</p>
             </div>
           </div>
-          <button 
-            onClick={() => { setEditingContract(null); resetForm(); setShowModal(true); }}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-blue-700"
-          >
-            <Plus className="w-4 h-4" /> New Contract
-          </button>
+          <div className="soc-actions">
+            <button 
+              onClick={() => { setEditingContract(null); resetForm(); setShowModal(true); }}
+              className="soc-btn soc-btn-primary"
+            >
+              <Plus className="w-4 h-4" /> New Contract
+            </button>
+          </div>
         </div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Active Contracts</p>
-                <p className="text-2xl font-bold">{activeContracts.length}</p>
-              </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <CheckCircle className="w-5 h-5 text-green-600" />
+        <div className="soc-kpis mb-6">
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Active Contracts</span>
+              <div className="soc-kpi-icon bg-lime-400/15 text-lime-400">
+                <CheckCircle className="w-5 h-5" />
               </div>
             </div>
+            <div className="soc-kpi-value">{activeContracts.length}</div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Monthly Recurring Revenue</p>
-                <p className="text-2xl font-bold">₹{(totalMonthlyRevenue / 100000).toFixed(1)}L</p>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <DollarSign className="w-5 h-5 text-blue-600" />
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Monthly Recurring Revenue</span>
+              <div className="soc-kpi-icon bg-cyan-400/15 text-cyan-400">
+                <DollarSign className="w-5 h-5" />
               </div>
             </div>
+            <div className="soc-kpi-value">₹{(totalMonthlyRevenue / 100000).toFixed(1)}L</div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Annual Contract Value</p>
-                <p className="text-2xl font-bold">₹{(totalAnnualRevenue / 10000000).toFixed(1)}Cr</p>
-              </div>
-              <div className="bg-purple-100 p-3 rounded-full">
-                <TrendingUp className="w-5 h-5 text-purple-600" />
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Annual Contract Value</span>
+              <div className="soc-kpi-icon bg-purple-400/15 text-purple-400">
+                <TrendingUp className="w-5 h-5" />
               </div>
             </div>
+            <div className="soc-kpi-value">₹{(totalAnnualRevenue / 10000000).toFixed(1)}Cr</div>
           </div>
           
-          <div className="bg-white rounded-xl p-4 shadow-sm border">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500">Expiring in 90 Days</p>
-                <p className="text-2xl font-bold text-orange-600">{expiringCount}</p>
-              </div>
-              <div className="bg-orange-100 p-3 rounded-full">
-                <Bell className="w-5 h-5 text-orange-600" />
+          <div className="soc-kpi">
+            <div className="flex justify-between items-start gap-2">
+              <span className="soc-kpi-label">Expiring in 90 Days</span>
+              <div className="soc-kpi-icon bg-amber-400/15 text-amber-400">
+                <Bell className="w-5 h-5" />
               </div>
             </div>
+            <div className="soc-kpi-value text-amber-400">{expiringCount}</div>
           </div>
         </div>
 
@@ -349,27 +352,27 @@ export default function ContractManagementPage() {
               const daysLeft = getDaysUntilExpiry(contract.endDate);
               const alertLevel = getAlertLevel(daysLeft);
               return (
-                <div key={contract.id} className={`bg-${alertLevel?.color}-50 border border-${alertLevel?.color}-200 rounded-xl p-4 flex justify-between items-center`}>
-                  <div className="flex items-center gap-3">
-                    <Bell className={`w-5 h-5 text-${alertLevel?.color}-600`} />
-                    <div>
+                <div key={contract.id} className={`${ALERT_CARD[alertLevel?.color || "red"]} rounded-xl p-4 flex flex-wrap justify-between items-center gap-3`}>
+                  <div className="flex items-center gap-3 min-w-0">
+                    <Bell className={`w-5 h-5 shrink-0 ${ALERT_TEXT[alertLevel?.color || "red"]}`} />
+                    <div className="min-w-0">
                       <p className="font-semibold">{contract.companyName}</p>
                       <p className="text-sm">
                         Contract expires in <span className="font-bold">{daysLeft} days</span> ({new Date(contract.endDate).toLocaleDateString()})
                       </p>
-                      <p className="text-xs text-gray-500">Monthly Value: ₹{contract.monthlyValue.toLocaleString()}</p>
+                      <p className="text-xs text-slate-500">Monthly Value: ₹{contract.monthlyValue.toLocaleString()}</p>
                     </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex flex-wrap gap-2 items-center shrink-0">
                     <button 
                       onClick={() => handleRenew(contract)}
-                      className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-green-700"
+                      className="soc-btn soc-btn-lime"
                     >
                       Renew Now
                     </button>
                     <button 
                       onClick={() => dismissAlert(contract.id)}
-                      className="text-gray-500 hover:text-gray-700"
+                      className="text-slate-500 hover:text-slate-300"
                     >
                       <X className="w-5 h-5" />
                     </button>
@@ -381,21 +384,21 @@ export default function ContractManagementPage() {
         )}
 
         {/* Contracts Table */}
-        <div className="bg-white rounded-xl shadow-sm border">
-          <div className="p-4 border-b">
-            <h2 className="font-semibold">All Contracts</h2>
+        <div className="soc-table-wrap">
+          <div className="p-4 border-b border-ink-700/60">
+            <h2 className="soc-card-title">All Contracts</h2>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 border-b">
-                <tr className="text-left text-sm text-gray-600">
-                  <th className="p-4">Client</th>
-                  <th className="p-4">Start Date</th>
-                  <th className="p-4">End Date</th>
-                  <th className="p-4">Monthly Value</th>
-                  <th className="p-4">Guards</th>
-                  <th className="p-4">Status</th>
-                  <th className="p-4">Actions</th>
+          <div className="soc-table-scroll">
+            <table className="soc-table">
+              <thead>
+                <tr>
+                  <th className="soc-th">Client</th>
+                  <th className="soc-th">Start Date</th>
+                  <th className="soc-th">End Date</th>
+                  <th className="soc-th">Monthly Value</th>
+                  <th className="soc-th">Guards</th>
+                  <th className="soc-th">Status</th>
+                  <th className="soc-th">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -403,38 +406,37 @@ export default function ContractManagementPage() {
                   const daysLeft = getDaysUntilExpiry(contract.endDate);
                   const alertLevel = getAlertLevel(daysLeft);
                   return (
-                    <tr key={contract.id} className="border-b hover:bg-gray-50">
-                      <td className="p-4">
-                        <div className="font-medium">{contract.companyName}</div>
-                        <div className="text-xs text-gray-500">{contract.paymentTerms}</div>
+                    <tr key={contract.id}>
+                      <td className="soc-td">
+                        <div className="font-medium text-slate-200">{contract.companyName}</div>
+                        <div className="text-xs text-slate-500">{contract.paymentTerms}</div>
                       </td>
-                      <td className="p-4 text-sm">{new Date(contract.startDate).toLocaleDateString()}</td>
-                      <td className="p-4">
+                      <td className="soc-td text-sm">{new Date(contract.startDate).toLocaleDateString()}</td>
+                      <td className="soc-td">
                         <div className="text-sm">{new Date(contract.endDate).toLocaleDateString()}</div>
                         {contract.status === "Expiring Soon" && (
-                          <div className={`text-xs text-${alertLevel?.color}-600 font-medium`}>
+                          <div className={`text-xs font-medium ${ALERT_TEXT[alertLevel?.color || "red"]}`}>
                             {daysLeft} days left
                           </div>
                         )}
                       </td>
-                      <td className="p-4 font-semibold">₹{contract.monthlyValue.toLocaleString()}</td>
-                      <td className="p-4">{contract.guardCount} guards</td>
-                      <td className="p-4">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          contract.status === "Active" ? "bg-green-100 text-green-700" :
-                          contract.status === "Expiring Soon" ? "bg-yellow-100 text-yellow-700" :
-                          contract.status === "Expired" ? "bg-red-100 text-red-700" :
-                          "bg-blue-100 text-blue-700"
-                        }`}>
+                      <td className="soc-td font-semibold">₹{contract.monthlyValue.toLocaleString()}</td>
+                      <td className="soc-td">{contract.guardCount} guards</td>
+                      <td className="soc-td">
+                        <span className={contract.status === "Active" ? "soc-badge soc-badge-green" :
+                          contract.status === "Expiring Soon" ? "soc-badge soc-badge-amber" :
+                          contract.status === "Expired" ? "soc-badge soc-badge-red" :
+                          "soc-badge soc-badge-cyan"
+                        }>
                           {contract.status}
                         </span>
                       </td>
-                      <td className="p-4">
+                      <td className="soc-td">
                         <div className="flex gap-2">
-                          <button onClick={() => openEditModal(contract)} className="text-gray-500 hover:text-blue-600">
+                          <button onClick={() => openEditModal(contract)} className="text-slate-500 hover:text-cyan-300">
                             <Edit2 className="w-4 h-4" />
                           </button>
-                          <button onClick={() => handleDelete(contract.id)} className="text-gray-500 hover:text-red-600">
+                          <button onClick={() => handleDelete(contract.id)} className="text-slate-500 hover:text-red-400">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -444,7 +446,7 @@ export default function ContractManagementPage() {
                 })}
                 {contracts.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="p-8 text-center text-gray-500">
+                    <td colSpan={7} className="soc-td text-center text-slate-500 py-10">
                       No contracts yet. Click "New Contract" to create one.
                     </td>
                   </tr>
@@ -456,12 +458,12 @@ export default function ContractManagementPage() {
 
         {/* Available to Convert Section */}
         {availableToContract > 0 && (
-          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
-            <h3 className="font-semibold text-blue-800 mb-2 flex items-center gap-2">
+          <div className="mt-6 bg-cyan-400/10 border border-cyan-400/30 rounded-xl p-4">
+            <h3 className="font-semibold text-cyan-300 mb-2 flex items-center gap-2">
               <Users className="w-4 h-4" />
               Ready to Convert ({availableToContract} leads in negotiation)
             </h3>
-            <p className="text-sm text-blue-600">
+            <p className="text-sm text-slate-400">
               These leads are ready to become contracts. Click "New Contract" and select them.
             </p>
           </div>
@@ -469,22 +471,22 @@ export default function ContractManagementPage() {
 
         {/* Contract Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl max-w-md w-full p-6 max-h-[90vh] overflow-auto">
+          <div className="soc-modal-bg">
+            <div className="soc-modal max-w-2xl max-h-[92vh] overflow-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-bold">{editingContract ? "Edit Contract" : "New Contract"}</h2>
-                <button onClick={() => { setShowModal(false); setEditingContract(null); }} className="text-gray-400 hover:text-gray-600">
+                <button onClick={() => { setShowModal(false); setEditingContract(null); }} className="text-slate-500 hover:text-slate-300">
                   <X className="w-5 h-5" />
                 </button>
               </div>
               
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">Select Client</label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="md:col-span-2">
+                  <label className="soc-label">Select Client</label>
                   <select 
                     value={selectedLead}
                     onChange={(e) => setSelectedLead(e.target.value)}
-                    className="w-full p-2 border rounded-lg"
+                    className="soc-select"
                     disabled={!!editingContract}
                   >
                     <option value="">Select a lead...</option>
@@ -495,52 +497,52 @@ export default function ContractManagementPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Start Date</label>
+                  <label className="soc-label">Start Date</label>
                   <input 
                     type="date" 
                     value={formData.startDate}
                     onChange={e => setFormData({...formData, startDate: e.target.value})}
-                    className="w-full p-2 border rounded-lg"
+                    className="soc-input"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">End Date</label>
+                  <label className="soc-label">End Date</label>
                   <input 
                     type="date" 
                     value={formData.endDate}
                     onChange={e => setFormData({...formData, endDate: e.target.value})}
-                    className="w-full p-2 border rounded-lg"
+                    className="soc-input"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Number of Guards</label>
+                  <label className="soc-label">Number of Guards</label>
                   <input 
                     type="number" 
                     value={formData.guardCount}
                     onChange={e => setFormData({...formData, guardCount: Number(e.target.value)})}
-                    className="w-full p-2 border rounded-lg"
+                    className="soc-input"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Monthly Contract Value (₹)</label>
+                  <label className="soc-label">Monthly Contract Value (₹)</label>
                   <input 
                     type="number" 
                     value={formData.monthlyValue}
                     onChange={e => setFormData({...formData, monthlyValue: Number(e.target.value)})}
-                    className="w-full p-2 border rounded-lg"
+                    className="soc-input"
                     placeholder="e.g., 187500"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium mb-1">Payment Terms</label>
+                  <label className="soc-label">Payment Terms</label>
                   <select 
                     value={formData.paymentTerms}
                     onChange={e => setFormData({...formData, paymentTerms: e.target.value})}
-                    className="w-full p-2 border rounded-lg"
+                    className="soc-select"
                   >
                     <option>Net 15</option>
                     <option>Net 30</option>
@@ -549,22 +551,22 @@ export default function ContractManagementPage() {
                   </select>
                 </div>
                 
-                <div>
-                  <label className="block text-sm font-medium mb-1">Special Conditions</label>
+                <div className="md:col-span-2">
+                  <label className="soc-label">Special Conditions</label>
                   <textarea 
                     value={formData.specialConditions}
                     onChange={e => setFormData({...formData, specialConditions: e.target.value})}
-                    className="w-full p-2 border rounded-lg h-24"
+                    className="soc-input h-24"
                     placeholder="e.g., 24/7 supervisor, armed guards required..."
                   />
                 </div>
               </div>
               
               <div className="flex gap-3 mt-6">
-                <button onClick={handleSubmit} className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                <button onClick={handleSubmit} className="soc-btn soc-btn-primary flex-1">
                   {editingContract ? "Update" : "Create"} Contract
                 </button>
-                <button onClick={() => { setShowModal(false); setEditingContract(null); }} className="flex-1 border py-2 rounded-lg hover:bg-gray-50">
+                <button onClick={() => { setShowModal(false); setEditingContract(null); }} className="soc-btn soc-btn-ghost flex-1">
                   Cancel
                 </button>
               </div>
@@ -572,6 +574,5 @@ export default function ContractManagementPage() {
           </div>
         )}
       </div>
-    </div>
   );
 }

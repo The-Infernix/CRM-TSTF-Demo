@@ -1,26 +1,242 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: dark;
+  --background: #04070f;
+  --foreground: #cbd5e1;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@theme {
+  /* Ink — mission-console dark scale */
+  --color-ink-950: #04070f;
+  --color-ink-900: #090d1a;
+  --color-ink-875: #0d1322;
+  --color-ink-850: #101828;
+  --color-ink-800: #141d31;
+  --color-ink-750: #1a2438;
+  --color-ink-700: #1f2a44;
+  --color-ink-600: #2c3a5c;
+  --color-ink-500: #47587f;
+}
+
+html {
+  background: #04070f;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle tactical grid + top glow for the console */
+.soc-bg {
+  background-image:
+    radial-gradient(700px 260px at 50% -10%, rgba(34, 211, 238, 0.09), transparent 60%),
+    linear-gradient(rgba(34, 211, 238, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.035) 1px, transparent 1px);
+  background-size: auto, 30px 30px, 30px 30px;
+  min-height: 100vh;
+}
+
+@layer components {
+  /* ---------- Layout ---------- */
+  .soc-wrap {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8;
+  }
+  .soc-kicker {
+    @apply font-mono text-[10px] uppercase tracking-[0.22em] text-cyan-400;
+  }
+  .soc-h1 {
+    @apply text-xl font-bold text-slate-100 mt-1 leading-tight;
+  }
+  .soc-sub {
+    @apply text-sm text-slate-500 mt-1;
+  }
+
+  /* Standard page header — kicker + title + actions, wraps cleanly */
+  .soc-page-header {
+    @apply flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8;
+  }
+  .soc-page-title {
+    @apply min-w-0;
+  }
+
+  /* ---------- Cards ---------- */
+  .soc-card {
+    @apply bg-ink-875 border border-ink-700/70 rounded-xl;
+  }
+  .soc-card-title {
+    @apply text-sm font-semibold text-slate-200;
+  }
+  .soc-panel {
+    @apply bg-ink-875 border border-ink-700/70 rounded-xl p-5;
+  }
+
+  /* ---------- KPI ---------- */
+  .soc-kpis {
+    @apply grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4;
+  }
+  .soc-kpi {
+    @apply bg-ink-875 border border-ink-700/70 rounded-xl p-5 h-full flex flex-col min-w-0;
+  }
+  .soc-kpi-label {
+    @apply font-mono text-[10px] uppercase tracking-wider text-slate-500 min-w-0;
+  }
+  .soc-kpi-value {
+    @apply font-mono text-[26px] leading-tight font-bold text-cyan-300 mt-1.5 break-words;
+  }
+  .soc-kpi-change {
+    @apply font-mono text-xs mt-auto pt-2;
+  }
+  .soc-kpi-icon {
+    @apply shrink-0 p-2 rounded-lg;
+  }
+
+  /* ---------- Actions / tabs ---------- */
+  .soc-actions {
+    @apply flex flex-wrap items-center gap-2;
+  }
+  .soc-tab-strip {
+    @apply flex flex-wrap gap-2;
+  }
+
+  /* ---------- Buttons ---------- */
+  .soc-btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition cursor-pointer;
+  }
+  .soc-btn-primary {
+    @apply bg-cyan-400 text-ink-950 hover:bg-cyan-300 font-semibold;
+  }
+  .soc-btn-ghost {
+    @apply border border-ink-600 text-slate-300 hover:bg-ink-800 hover:text-white;
+  }
+  .soc-btn-danger {
+    @apply bg-red-500/15 text-red-400 border border-red-500/40 hover:bg-red-500/25;
+  }
+  .soc-btn-lime {
+    @apply bg-lime-400/15 text-lime-300 border border-lime-400/40 hover:bg-lime-400/25;
+  }
+  .soc-btn-ghost:disabled,
+  .soc-btn-primary:disabled {
+    @apply opacity-40 cursor-not-allowed;
+  }
+
+  /* ---------- Form ---------- */
+  .soc-label {
+    @apply block font-mono text-[10px] uppercase tracking-wider text-slate-500 mb-1.5;
+  }
+  .soc-input,
+  .soc-select {
+    @apply w-full bg-ink-800 border border-ink-600 rounded-lg px-3 py-2 text-sm text-slate-200 placeholder:text-slate-600 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30;
+  }
+  .soc-select option {
+    background: #101828;
+  }
+  .soc-check {
+    @apply accent-cyan-400;
+  }
+  .soc-range {
+    @apply w-full accent-cyan-400;
+  }
+
+  /* ---------- Badges / LEDs ---------- */
+  .soc-badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full font-mono font-medium text-[11px];
+  }
+  .soc-badge-cyan { @apply bg-cyan-400/15 text-cyan-300 border border-cyan-400/30; }
+  .soc-badge-green { @apply bg-lime-400/15 text-lime-300 border border-lime-400/30; }
+  .soc-badge-amber { @apply bg-amber-400/15 text-amber-300 border border-amber-400/30; }
+  .soc-badge-red { @apply bg-red-400/15 text-red-300 border border-red-400/30; }
+  .soc-badge-purple { @apply bg-purple-400/15 text-purple-300 border border-purple-400/30; }
+  .soc-badge-slate { @apply bg-slate-400/10 text-slate-400 border border-slate-500/20; }
+
+  .soc-led {
+    @apply inline-block w-2 h-2 rounded-full;
+  }
+
+  /* ---------- Table ---------- */
+  .soc-table-wrap {
+    @apply bg-ink-875 border border-ink-700/70 rounded-xl overflow-hidden;
+  }
+  .soc-table-scroll {
+    @apply overflow-x-auto;
+  }
+  .soc-table {
+    @apply w-full text-sm;
+  }
+  .soc-table th {
+    @apply whitespace-nowrap;
+  }
+  .soc-table td {
+    @apply align-top;
+  }
+  .soc-th {
+    @apply text-left font-mono text-[10px] uppercase tracking-wider text-slate-500 px-4 py-2.5 bg-ink-850/70;
+  }
+  .soc-td {
+    @apply px-4 py-3 text-slate-300 border-t border-ink-700/60;
+  }
+  .soc-table tbody tr:hover {
+    background: rgba(16, 24, 40, 0.55);
+  }
+
+  /* ---------- Modal / Toggle / Empty ---------- */
+  .soc-modal-bg {
+    @apply fixed inset-0 bg-black/70 backdrop-blur-sm overflow-y-auto flex items-start sm:items-center justify-center z-50 p-4;
+  }
+  .soc-modal {
+    @apply w-full max-w-lg bg-ink-900 border border-ink-700 rounded-xl p-6 my-8 sm:my-0;
+  }
+  .soc-empty {
+    @apply text-center text-slate-600 py-10 text-sm;
+  }
+  .soc-tab {
+    @apply px-3 py-2 rounded-lg text-sm font-medium border transition cursor-pointer whitespace-nowrap;
+  }
+  .soc-tab-active {
+    @apply bg-cyan-400/15 text-cyan-300 border-cyan-400/40;
+  }
+  .soc-tab-idle {
+    @apply border-ink-600 text-slate-400 hover:text-slate-200 hover:bg-ink-800;
+  }
+}
+
+/* Re-chart theming helpers */
+.soc-chart-grid { stroke: #2c3a5c; }
+.soc-chart-tooltip {
+  background: #0a0e18;
+  border: 1px solid #2c3a5c;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #e2e8f0;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #090d1a; }
+::-webkit-scrollbar-thumb { background: #2c3a5c; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3b4b75; }
+
+/* Legacy input helper (kept dark to match) */
+.inp {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #2c3a5c;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  background: #141d31;
+  color: #cbd5e1;
+}
+.inp:focus {
+  outline: none;
+  border-color: #22d3ee;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
 }

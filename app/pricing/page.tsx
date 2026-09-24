@@ -192,57 +192,45 @@ export default function PricingEnginePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="soc-wrap">
       {/* Header */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-4">
-              <button 
-                onClick={() => router.push('/dashboard')}
-                className="text-gray-600 hover:text-gray-900"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                  <Calculator className="w-7 h-7 text-blue-600" />
-                  Pricing Engine
-                </h1>
-                <p className="text-sm text-gray-500">Calculate costs and margins for security contracts</p>
-              </div>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowSaveModal(true)}
-                className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                <Save className="w-4 h-4" />
-                Save Proposal
-              </button>
-              <button
-                onClick={generatePDF}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                <Download className="w-4 h-4" />
-                Export PDF
-              </button>
-            </div>
-          </div>
+      <div className="soc-page-header">
+        <div className="soc-page-title">
+          <div className="soc-kicker">// MODULE — Pricing Engine</div>
+          <h1 className="soc-h1 flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-cyan-400" />
+            Pricing Engine
+          </h1>
+          <p className="soc-sub">Calculate costs and margins for security contracts</p>
+        </div>
+        <div className="soc-actions">
+          <button
+            onClick={() => setShowSaveModal(true)}
+            className="soc-btn soc-btn-ghost"
+          >
+            <Save className="w-4 h-4" />
+            Save Proposal
+          </button>
+          <button
+            onClick={generatePDF}
+            className="soc-btn soc-btn-primary"
+          >
+            <Download className="w-4 h-4" />
+            Export PDF
+          </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           
           {/* Left Column - Inputs */}
           <div className="lg:col-span-2 space-y-6">
             {/* Cost Calculator Card */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <Users className="w-5 h-5 text-blue-600" />
+            <div className="soc-panel">
+              <h3 className="soc-card-title mb-4 flex items-center gap-2">
+                <Users className="w-5 h-5 text-cyan-400" />
                 Cost Breakdown (Per Guard / Month)
-              </h2>
+              </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <InputField 
@@ -301,8 +289,8 @@ export default function PricingEnginePage() {
                 />
               </div>
 
-              <div className="mt-6 pt-4 border-t">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="mt-6 pt-4 border-t border-ink-700/60">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <InputField 
                     label="Number of Guards" 
                     value={inputs.guardCount}
@@ -310,13 +298,13 @@ export default function PricingEnginePage() {
                     icon="👥"
                   />
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="soc-label">
                       Profit Margin
                     </label>
                     <select
                       value={inputs.profitMargin}
                       onChange={(e) => updateInput('profitMargin', Number(e.target.value))}
-                      className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="soc-select"
                     >
                       <option value={20}>20% Margin</option>
                       <option value={25}>25% Margin (Recommended)</option>
@@ -329,30 +317,30 @@ export default function PricingEnginePage() {
 
             {/* Saved Proposals */}
             {savedProposals.length > 0 && (
-              <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <FileText className="w-5 h-5 text-green-600" />
+              <div className="soc-panel">
+                <h3 className="soc-card-title mb-4 flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-lime-400" />
                   Saved Proposals
-                </h2>
+                </h3>
                 <div className="space-y-2">
                   {savedProposals.map((proposal: any) => (
-                    <div key={proposal.id} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                    <div key={proposal.id} className="flex justify-between items-center p-4 bg-ink-800/70 border border-ink-700/60 rounded-lg">
                       <div>
-                        <p className="font-medium">{proposal.name}</p>
-                        <p className="text-xs text-gray-500">
+                        <p className="font-medium text-slate-200">{proposal.name}</p>
+                        <p className="text-xs text-slate-500">
                           {new Date(proposal.date).toLocaleDateString()} • {proposal.guardCount} guards
                         </p>
                       </div>
                       <div className="flex gap-2">
                         <button
                           onClick={() => loadProposal(proposal)}
-                          className="text-blue-600 text-sm hover:underline"
+                          className="text-cyan-400 text-sm hover:text-cyan-300 hover:underline"
                         >
                           Load
                         </button>
                         <button
                           onClick={() => deleteProposal(proposal.id)}
-                          className="text-red-600 text-sm hover:underline"
+                          className="text-red-400 text-sm hover:text-red-300 hover:underline"
                         >
                           Delete
                         </button>
@@ -367,30 +355,30 @@ export default function PricingEnginePage() {
           {/* Right Column - Outputs */}
           <div className="space-y-6">
             {/* Summary Card */}
-            <div className="bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl shadow-lg p-6 text-white">
-              <h3 className="text-sm font-medium opacity-90 mb-4">Pricing Summary</h3>
+            <div className="soc-panel">
+              <h3 className="soc-card-title mb-4">Pricing Summary</h3>
               <div className="space-y-3">
                 <div>
-                  <p className="text-xs opacity-75">Actual Cost Per Guard</p>
-                  <p className="text-2xl font-bold">{formatCurrency(outputs.actualCostPerGuard)}</p>
+                  <p className="text-xs text-slate-500">Actual Cost Per Guard</p>
+                  <p className="text-2xl font-bold font-mono text-cyan-300">{formatCurrency(outputs.actualCostPerGuard)}</p>
                 </div>
                 <div>
-                  <p className="text-xs opacity-75">Suggested Price ({inputs.profitMargin}% Margin)</p>
-                  <p className="text-3xl font-bold">{formatCurrency(outputs.suggestedPrice)}</p>
+                  <p className="text-xs text-slate-500">Suggested Price ({inputs.profitMargin}% Margin)</p>
+                  <p className="text-3xl font-bold font-mono text-lime-300">{formatCurrency(outputs.suggestedPrice)}</p>
                 </div>
-                <div className="pt-2 border-t border-white/20">
-                  <p className="text-xs opacity-75">Monthly Revenue ({inputs.guardCount} guards)</p>
-                  <p className="text-xl font-bold">{formatCurrency(outputs.monthlyRevenue)}</p>
-                  <p className="text-xs opacity-75 mt-1">Annual Revenue</p>
-                  <p className="text-lg font-semibold">{formatCurrency(outputs.annualRevenue)}</p>
+                <div className="pt-2 border-t border-ink-700/60">
+                  <p className="text-xs text-slate-500">Monthly Revenue ({inputs.guardCount} guards)</p>
+                  <p className="text-xl font-bold font-mono text-cyan-300">{formatCurrency(outputs.monthlyRevenue)}</p>
+                  <p className="text-xs text-slate-500 mt-1">Annual Revenue</p>
+                  <p className="text-lg font-semibold font-mono text-slate-200">{formatCurrency(outputs.annualRevenue)}</p>
                 </div>
               </div>
             </div>
 
             {/* Margin Options */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
-                <Percent className="w-4 h-4 text-gray-500" />
+            <div className="soc-panel">
+              <h3 className="soc-card-title mb-3 flex items-center gap-2">
+                <Percent className="w-4 h-4 text-slate-500" />
                 Margin Options
               </h3>
               <div className="space-y-3">
@@ -416,24 +404,24 @@ export default function PricingEnginePage() {
             </div>
 
             {/* Quick Actions */}
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-              <h3 className="font-semibold text-gray-800 mb-3">Quick Actions</h3>
+            <div className="soc-panel">
+              <h3 className="soc-card-title mb-3">Quick Actions</h3>
               <div className="space-y-2">
                 <button 
                   onClick={() => updateInput('profitMargin', 20)}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg text-sm"
+                  className="w-full text-left px-3 py-2 hover:bg-ink-800 rounded-lg text-sm text-slate-400 hover:text-slate-200"
                 >
                   Apply 20% Margin
                 </button>
                 <button 
                   onClick={() => updateInput('profitMargin', 25)}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg text-sm"
+                  className="w-full text-left px-3 py-2 hover:bg-ink-800 rounded-lg text-sm text-slate-400 hover:text-slate-200"
                 >
                   Apply 25% Margin
                 </button>
                 <button 
                   onClick={() => updateInput('profitMargin', 35)}
-                  className="w-full text-left px-3 py-2 hover:bg-gray-50 rounded-lg text-sm"
+                  className="w-full text-left px-3 py-2 hover:bg-ink-800 rounded-lg text-sm text-slate-400 hover:text-slate-200"
                 >
                   Apply 35% Margin
                 </button>
@@ -480,25 +468,24 @@ export default function PricingEnginePage() {
             </table>
           </div>
         </div>
-      </div>
 
       {/* Save Modal */}
       {showSaveModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl max-w-md w-full p-6">
-            <h2 className="text-xl font-bold mb-4">Save Pricing Proposal</h2>
+        <div className="soc-modal-bg">
+          <div className="soc-modal max-h-[92vh] overflow-auto">
+            <h2 className="text-xl font-bold mb-4 text-slate-200">Save Pricing Proposal</h2>
             <input
               type="text"
               placeholder="Proposal name (e.g., Apollo Hospitals - 10 Guards)"
               value={proposalName}
               onChange={(e) => setProposalName(e.target.value)}
-              className="w-full p-2 border rounded-lg mb-4"
+              className="soc-input mb-4"
             />
             <div className="flex gap-3">
-              <button onClick={saveProposal} className="flex-1 bg-blue-600 text-white py-2 rounded-lg">
+              <button onClick={saveProposal} className="soc-btn soc-btn-primary flex-1">
                 Save
               </button>
-              <button onClick={() => setShowSaveModal(false)} className="flex-1 border py-2 rounded-lg">
+              <button onClick={() => setShowSaveModal(false)} className="soc-btn soc-btn-ghost flex-1">
                 Cancel
               </button>
             </div>
@@ -518,16 +505,16 @@ function InputField({ label, value, onChange, icon }: {
 }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
+      <label className="soc-label">
         {label}
       </label>
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">{icon}</span>
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-600">{icon}</span>
         <input
           type="number"
           value={value}
           onChange={(e) => onChange(Number(e.target.value))}
-          className="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full pl-8 pr-3 py-2 bg-ink-800 border border-ink-600 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400/30"
         />
       </div>
     </div>
@@ -541,17 +528,17 @@ function MarginCard({ label, price, isRecommended, formatCurrency }: {
   formatCurrency: (amount: number) => string;
 }) {
   return (
-    <div className={`p-3 rounded-lg border ${isRecommended ? 'border-green-300 bg-green-50' : 'border-gray-200'}`}>
+    <div className={`p-4 rounded-lg border ${isRecommended ? 'border-lime-400/40 bg-lime-400/15' : 'border-ink-700/60 bg-ink-800/40'}`}>
       <div className="flex justify-between items-center">
         <div>
-          <p className="font-medium flex items-center gap-2">
+          <p className="font-medium text-slate-200 flex items-center gap-2">
             {label}
-            {isRecommended && <CheckCircle className="w-4 h-4 text-green-600" />}
+            {isRecommended && <CheckCircle className="w-4 h-4 text-lime-400" />}
           </p>
-          <p className="text-xl font-bold">{formatCurrency(price)}</p>
+          <p className="text-xl font-bold font-mono text-cyan-300">{formatCurrency(price)}</p>
         </div>
         {isRecommended && (
-          <span className="text-xs bg-green-600 text-white px-2 py-1 rounded">Recommended</span>
+          <span className="soc-badge soc-badge-green">Recommended</span>
         )}
       </div>
     </div>

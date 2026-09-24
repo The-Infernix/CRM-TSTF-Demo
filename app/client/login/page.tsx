@@ -92,81 +92,81 @@ export default function ClientLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-slate-900 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8">
-        <div className="flex justify-center mb-6">
-          <div className="bg-blue-600 p-3 rounded-full">
-            <Shield className="w-10 h-10 text-white" />
+    <div className="min-h-screen soc-bg flex items-center justify-center p-4">
+      <div className="bg-ink-900 border border-ink-700 rounded-2xl w-full max-w-md p-6 shadow-2xl shadow-black/40">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 mx-auto rounded-2xl bg-ink-800 border border-cyan-400/40 mb-4">
+            <Shield className="w-8 h-8 text-cyan-400" />
           </div>
+          <p className="soc-kicker text-center mb-1">// RESTRICTED ACCESS</p>
+          <h1 className="text-2xl font-bold text-center text-white mb-2">Client Portal</h1>
+          <p className="text-center text-slate-500 mb-8">Access your security reports and invoices</p>
         </div>
         
-        <h1 className="text-2xl font-bold text-center text-gray-800 mb-2">Client Portal</h1>
-        <p className="text-center text-gray-500 mb-8">Access your security reports and invoices</p>
-        
         {error && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/40 rounded-lg text-red-300 text-sm font-mono">
             {error}
           </div>
         )}
         
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+            <label className="soc-label">Email Address</label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
               <input 
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="client@company.com" 
-                className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="soc-input pl-9"
               />
             </div>
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <label className="soc-label">Password</label>
             <div className="relative">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
               <input 
                 type={showPassword ? "text" : "password"} 
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••" 
-                className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="soc-input pl-9 pr-10"
               />
               <button 
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2"
               >
-                {showPassword ? <EyeOff className="w-4 h-4 text-gray-400" /> : <Eye className="w-4 h-4 text-gray-400" />}
+                {showPassword ? <EyeOff className="w-4 h-4 text-slate-500" /> : <Eye className="w-4 h-4 text-slate-500" />}
               </button>
             </div>
           </div>
           
           <button 
             onClick={handleLogin}
-            className="w-full bg-blue-600 text-white rounded-lg py-2 font-semibold hover:bg-blue-700 transition"
+            className="soc-btn soc-btn-primary w-full"
           >
             Login to Portal
           </button>
         </div>
         
-        <div className="mt-6 p-3 bg-gray-50 rounded-lg">
-          <p className="text-xs text-gray-500 text-center mb-2">Demo Credentials:</p>
-          <p className="text-xs text-gray-400 text-center">
+        <div className="mt-6 p-3 bg-ink-800 border border-ink-700 rounded-lg">
+          <p className="soc-kicker text-center text-[10px] mb-2">// Demo Credentials:</p>
+          <p className="text-xs text-slate-400 text-center font-mono">
             Email: client1@apollohospitals.com<br />
             Password: 123456
           </p>
-          <hr className="my-2" />
-          <p className="text-xs text-gray-400 text-center">
+          <hr className="my-2 border-ink-700" />
+          <p className="text-xs text-slate-400 text-center font-mono">
             Email: client2@vizagsez.com<br />
             Password: 123456
           </p>
         </div>
         
-        <p className="mt-6 text-center text-xs text-gray-400">
+        <p className="mt-6 text-center text-xs text-slate-500">
           © TSFS Security Services - Client Portal
         </p>
       </div>
